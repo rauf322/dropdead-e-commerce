@@ -2,9 +2,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@variant lg (min-width: 1024px);
-@variant md (min-width: 768px);
-
 @utility wrapper {
   max-width: 80rem;
   padding: 1.25rem;
