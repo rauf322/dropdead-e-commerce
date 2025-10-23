@@ -1,6 +1,6 @@
 'use client';
 
-import { Product as ProductType } from '@/app/types';
+import { Product as ProductType } from '@/app/types/index';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Link from 'next/link';
 import Image from 'next/image';

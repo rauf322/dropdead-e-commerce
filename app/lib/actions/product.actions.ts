@@ -3,10 +3,9 @@
 import { PrismaClient } from '@prisma/client';
 import { convertToPlainObject } from '../utils';
 import { LATEST_PRODUCTS_LIMIT } from '../constants';
+import { Product } from '@/app/types';
 
-// Get latest products
-
-export async function getLatestProducts() {
+export async function getLatestProducts(): Promise<Product[]> {
   const prisma = new PrismaClient();
 
   const data = await prisma.product.findMany({
@@ -14,5 +13,9 @@ export async function getLatestProducts() {
     orderBy: { createdAt: 'desc' },
   });
 
-  return convertToPlainObject(data);
+  return data.map((product: { price: { toString: () => string }; rating: { toString: () => string } }) => ({
+    ...convertToPlainObject(product),
+    price: product.price.toString(),
+    rating: product.rating.toString(),
+  })) as Product[];
 }

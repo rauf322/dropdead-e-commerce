@@ -1,16 +1,11 @@
-export type Product = {
+import { z } from 'zod';
+import { insertProductSchema } from '../lib/validators';
+
+export type Product = z.infer<typeof insertProductSchema> & {
   id: string;
-  name: string;
-  slug: string;
-  category: string;
-  images: string[];
-  price: number;
-  brand: string;
-  rating: number;
+  rating: string;
   numReviews: number;
-  stock: number;
-  description: string;
-  isFeatured: boolean;
+  createdAt: Date;
 };
 
 export type User = {

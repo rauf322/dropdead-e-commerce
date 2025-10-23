@@ -1,4 +1,4 @@
-import { Data } from '@/app/types';
+import { Data } from '@/app/types/index';
 
 export const sampleData: Data = {
   products: [
@@ -8,14 +8,15 @@ export const sampleData: Data = {
       slug: 'classic-tshirt',
       category: 'Clothing',
       images: ['/images/tshirt.png'],
-      price: 29.99,
+      price: '29.99',
       brand: 'UrbanWear',
-      rating: 4.5,
+      rating: '4.5',
       numReviews: 128,
       stock: 45,
-      description:
-        'Comfortable cotton t-shirt perfect for everyday wear.',
+      description: 'Comfortable cotton t-shirt perfect for everyday wear.',
       isFeatured: true,
+      banner: null,
+      createdAt: new Date('2024-01-01'),
     },
     {
       id: '2',
@@ -23,14 +24,15 @@ export const sampleData: Data = {
       slug: 'premium-tshirt',
       category: 'Clothing',
       images: ['/images/tshirt2.png'],
-      price: 39.99,
+      price: '39.99',
       brand: 'UrbanWear',
-      rating: 4.7,
+      rating: '4.7',
       numReviews: 342,
       stock: 23,
-      description:
-        'Premium quality t-shirt with modern fit and design.',
+      description: 'Premium quality t-shirt with modern fit and design.',
       isFeatured: true,
+      banner: null,
+      createdAt: new Date('2024-01-02'),
     },
     {
       id: '3',
@@ -38,14 +40,15 @@ export const sampleData: Data = {
       slug: 'cozy-hoodie',
       category: 'Clothing',
       images: ['/images/hoodie.png'],
-      price: 59.99,
+      price: '59.99',
       brand: 'ComfortCo',
-      rating: 4.3,
+      rating: '4.3',
       numReviews: 89,
       stock: 67,
-      description:
-        'Warm and comfortable hoodie for casual wear.',
+      description: 'Warm and comfortable hoodie for casual wear.',
       isFeatured: false,
+      banner: null,
+      createdAt: new Date('2024-01-03'),
     },
     {
       id: '4',
@@ -53,14 +56,15 @@ export const sampleData: Data = {
       slug: 'winter-jacket',
       category: 'Clothing',
       images: ['/images/curtka.png'],
-      price: 149.99,
+      price: '149.99',
       brand: 'OutdoorPro',
-      rating: 4.8,
+      rating: '4.8',
       numReviews: 256,
       stock: 34,
-      description:
-        'Insulated winter jacket to keep you warm in cold weather.',
+      description: 'Insulated winter jacket to keep you warm in cold weather.',
       isFeatured: true,
+      banner: null,
+      createdAt: new Date('2024-01-04'),
     },
   ],
   users: [

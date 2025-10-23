@@ -1,5 +1,5 @@
 import Loading from '@/app/loading';
-import { Product } from '@/app/types';
+import { Product } from '@/app/types/index';
 import ProductCard from './product-card';
 
 const ProductList = ({ data, title }: { data: Product[]; title?: string }) => {

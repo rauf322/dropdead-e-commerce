@@ -6,6 +6,7 @@ async function main() {
   await prisma.product.deleteMany();
 
   const productsWithoutId = sampleData.products.map(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ({ id, ...product }) => product,
   );
   await prisma.product.createMany({ data: productsWithoutId });
