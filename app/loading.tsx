@@ -1,6 +1,6 @@
 'use client';
 
-import { Progress } from '@/components/ui/progress';
+import { Progress } from '@/app/components/ui/progress';
 import { useEffect, useState } from 'react';
 
 function Loading() {

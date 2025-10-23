@@ -1,0 +1,101 @@
+import { Data } from '@/app/types';
+
+export const sampleData: Data = {
+  products: [
+    {
+      id: '1',
+      name: 'Classic T-Shirt',
+      slug: 'classic-tshirt',
+      category: 'Clothing',
+      images: ['/images/tshirt.png'],
+      price: 29.99,
+      brand: 'UrbanWear',
+      rating: 4.5,
+      numReviews: 128,
+      stock: 45,
+      description:
+        'Comfortable cotton t-shirt perfect for everyday wear.',
+      isFeatured: true,
+    },
+    {
+      id: '2',
+      name: 'Premium T-Shirt',
+      slug: 'premium-tshirt',
+      category: 'Clothing',
+      images: ['/images/tshirt2.png'],
+      price: 39.99,
+      brand: 'UrbanWear',
+      rating: 4.7,
+      numReviews: 342,
+      stock: 23,
+      description:
+        'Premium quality t-shirt with modern fit and design.',
+      isFeatured: true,
+    },
+    {
+      id: '3',
+      name: 'Cozy Hoodie',
+      slug: 'cozy-hoodie',
+      category: 'Clothing',
+      images: ['/images/hoodie.png'],
+      price: 59.99,
+      brand: 'ComfortCo',
+      rating: 4.3,
+      numReviews: 89,
+      stock: 67,
+      description:
+        'Warm and comfortable hoodie for casual wear.',
+      isFeatured: false,
+    },
+    {
+      id: '4',
+      name: 'Winter Jacket',
+      slug: 'winter-jacket',
+      category: 'Clothing',
+      images: ['/images/curtka.png'],
+      price: 149.99,
+      brand: 'OutdoorPro',
+      rating: 4.8,
+      numReviews: 256,
+      stock: 34,
+      description:
+        'Insulated winter jacket to keep you warm in cold weather.',
+      isFeatured: true,
+    },
+  ],
+  users: [
+    {
+      id: '1',
+      name: 'John Doe',
+      email: 'john@example.com',
+      role: 'admin',
+    },
+    {
+      id: '2',
+      name: 'Jane Smith',
+      email: 'jane@example.com',
+      role: 'user',
+    },
+  ],
+  orders: [
+    {
+      id: '1',
+      userId: '2',
+      items: [
+        { productId: '1', quantity: 1, price: 99.99 },
+        { productId: '3', quantity: 2, price: 39.99 },
+      ],
+      totalAmount: 179.97,
+      status: 'delivered',
+      createdAt: new Date('2024-01-15'),
+    },
+    {
+      id: '2',
+      userId: '2',
+      items: [{ productId: '2', quantity: 1, price: 249.99 }],
+      totalAmount: 249.99,
+      status: 'shipped',
+      createdAt: new Date('2024-01-20'),
+    },
+  ],
+};

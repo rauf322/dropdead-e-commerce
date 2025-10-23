@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/app/components/ui/button';
 import ModeToggle from './mode-toggle';
 import Link from 'next/link';
 import { EllipsisVertical, ShoppingBag, UserIcon } from 'lucide-react';
@@ -7,7 +7,7 @@ import {
   SheetContent,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet';
+} from '@/app/components/ui/sheet';
 
 const Menu = () => {
   return (
