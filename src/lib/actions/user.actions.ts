@@ -46,7 +46,8 @@ export async function signInWithCredentials(
     };
   }
 }
-
 export async function signOutUser() {
-  await signOut({ redirect: true, redirectTo: '/' });
+  console.log('signOutUser called');
+  await signOut();
+  console.log('signOut completed');
 }
