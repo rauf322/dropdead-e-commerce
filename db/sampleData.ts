@@ -23,7 +23,11 @@ export const sampleData: Data = {
       name: 'Premium T-Shirt',
       slug: 'premium-tshirt',
       category: 'Clothing',
-      images: ['/images/tshirt2.png'],
+      images: [
+        '/images/tshirt2.png',
+        '/images/tshirt-2-2.png',
+        '/images/tshirt2-1.png',
+      ],
       price: '39.99',
       brand: 'UrbanWear',
       rating: '4.7',
