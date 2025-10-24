@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { insertProductSchema } from '../lib/validators';
+import { insertProductSchema, userAuthSchema } from '../lib/validators';
 
 export type Product = z.infer<typeof insertProductSchema> & {
   id: string;
@@ -8,12 +8,7 @@ export type Product = z.infer<typeof insertProductSchema> & {
   createdAt: Date;
 };
 
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  role: 'admin' | 'user';
-};
+export type User = z.infer<typeof userAuthSchema>;
 
 export type Order = {
   id: string;
@@ -30,8 +25,12 @@ export type OrderedItem = {
   price: number;
 };
 
+// Seed data types (without auto-generated fields)
+export type SeedProduct = Omit<Product, 'id'>;
+export type SeedUser = Omit<User, 'id' | 'updatedAt' | 'createdAt'>;
+
 export type Data = {
-  products: Product[];
-  users: User[];
+  products: SeedProduct[];
+  users: SeedUser[];
   orders: Order[];
 };

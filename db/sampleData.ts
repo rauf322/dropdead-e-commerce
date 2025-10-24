@@ -1,9 +1,9 @@
 import { Data } from '../src/types/index';
+import { hashSync } from 'bcrypt-ts-edge';
 
 export const sampleData: Data = {
   products: [
     {
-      id: '1',
       name: 'Classic T-Shirt',
       slug: 'classic-tshirt',
       category: 'Clothing',
@@ -19,7 +19,6 @@ export const sampleData: Data = {
       createdAt: new Date('2024-01-01'),
     },
     {
-      id: '2',
       name: 'Premium T-Shirt',
       slug: 'premium-tshirt',
       category: 'Clothing',
@@ -39,7 +38,6 @@ export const sampleData: Data = {
       createdAt: new Date('2024-01-02'),
     },
     {
-      id: '3',
       name: 'Cozy Hoodie',
       slug: 'cozy-hoodie',
       category: 'Clothing',
@@ -55,7 +53,6 @@ export const sampleData: Data = {
       createdAt: new Date('2024-01-03'),
     },
     {
-      id: '4',
       name: 'Winter Jacket',
       slug: 'winter-jacket',
       category: 'Clothing',
@@ -73,15 +70,15 @@ export const sampleData: Data = {
   ],
   users: [
     {
-      id: '1',
       name: 'John Doe',
       email: 'john@example.com',
+      password: hashSync('123456', 10),
       role: 'admin',
     },
     {
-      id: '2',
       name: 'Jane Smith',
       email: 'jane@example.com',
+      password: hashSync('123456', 10),
       role: 'user',
     },
   ],

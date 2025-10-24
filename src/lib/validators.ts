@@ -22,3 +22,15 @@ export const insertProductSchema = z.object({
   banner: z.string().nullable(),
   price: currency,
 });
+
+export const userAuthSchema = z.object({
+  name: z.string().min(2).optional(),
+  email: z.email().optional(),
+  emailVerified: z.date().nullable().optional(),
+  image: z.string().optional(),
+  password: z.string().optional(),
+  role: z.enum(['user', 'admin']).default('user'),
+  paymentMethod: z.string().optional(),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
+});

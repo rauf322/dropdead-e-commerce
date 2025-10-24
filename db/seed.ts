@@ -4,12 +4,13 @@ import { sampleData } from './sampleData';
 async function main() {
   const prisma = new PrismaClient();
   await prisma.product.deleteMany();
+  await prisma.account.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.session.deleteMany();
+  await prisma.verificationToken.deleteMany();
 
-  const productsWithoutId = sampleData.products.map(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ({ id, ...product }) => product,
-  );
-  await prisma.product.createMany({ data: productsWithoutId });
+  await prisma.product.createMany({ data: sampleData.products });
+  await prisma.user.createMany({ data: sampleData.users });
   console.log(`Database has been seeded with sample data.`);
 }
 
