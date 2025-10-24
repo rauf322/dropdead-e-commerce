@@ -1,4 +1,4 @@
-import { Data } from '../app/types/index';
+import { Data } from '../src/types/index';
 
 export const sampleData: Data = {
   products: [
