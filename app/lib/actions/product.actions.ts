@@ -13,3 +13,9 @@ export async function getLatestProducts(): Promise<Product[]> {
 
   return convertToPlainObject(data);
 }
+
+export async function getProductBySlug(slug: string) {
+  return await prisma.product.findFirst({
+    where: { slug: slug },
+  });
+}

@@ -13,14 +13,15 @@ const ProductCard = ({ product }: { product: ProductType }) => {
   return (
     <Card className='w-full max-w-sm group relative'>
       <CardHeader className='p-0 items-center flex flex-col align-center justify-center '>
-        <Link href={`/product/${product.slug}`}></Link>
-        <Image
-          src={product.images[0]}
-          alt={product.name}
-          height={300}
-          width={300}
-          priority={true}
-        ></Image>
+        <Link href={`/product/${product.slug}`}>
+          <Image
+            src={product.images[0]}
+            alt={product.name}
+            height={300}
+            width={300}
+            priority={true}
+          />
+        </Link>
       </CardHeader>
       <Heart
         className='absolute transition-all group-hover:opacity-100 opacity-0 ml-5 cursor-pointer'
