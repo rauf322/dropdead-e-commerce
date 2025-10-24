@@ -5,7 +5,6 @@ import { Suspense } from 'react';
 import Loading from '../loading';
 
 async function Home() {
-  await new Promise((resolve) => setTimeout(resolve, 4000));
   const latestProducts = await getLatestProducts();
 
   if (!latestProducts) {

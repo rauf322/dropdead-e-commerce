@@ -1,62 +1,66 @@
-import NextAuth, { NextAuthOptions } from 'next-auth';
+import NextAuth from 'next-auth';
+import type { Adapter } from '@auth/core/adapters';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from './db/prisma';
-import CredentialsProvider from 'next-auth/providers/credentials';
 import { compareSync } from 'bcrypt-ts-edge';
+import Credentials from 'next-auth/providers/credentials';
+import { signInFormShema } from '@/lib/validators';
 
-export const config = {
-  pages: {
-    signIn: '/sign-in',
-    error: '/sign-in',
-  },
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: PrismaAdapter(prisma) as Adapter,
   session: {
     strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 30 * 24 * 60 * 60,
   },
-  adapter: PrismaAdapter(prisma),
+  pages: {
+    signIn: '/sign-in',
+  },
   providers: [
-    CredentialsProvider({
+    Credentials({
       credentials: {
-        email: { type: 'email' },
-        password: { type: 'password' },
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (credentials == null) return null;
-        //Find user in db
-        const user = await prisma.user.findFirst({
-          where: {
-            email: credentials.email as string,
-          },
+        const parsedCredentials = signInFormShema.safeParse(credentials);
+
+        if (!parsedCredentials.success) return null;
+
+        const { email, password } = parsedCredentials.data;
+
+        const user = await prisma.user.findUnique({
+          where: { email },
         });
-        //Check if user exist and password the same
-        if (user && user.password) {
-          const isMatch = compareSync(credentials.password, user.password);
-          if (isMatch) {
-            return {
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              role: user.role,
-            };
-          }
-        }
-        //if User doesn't exist
-        return null;
+
+        if (!user || !user.password) return null;
+
+        const isPasswordValid = compareSync(password, user.password);
+
+        if (!isPasswordValid) return null;
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        };
       },
     }),
   ],
   callbacks: {
-    async session({ session, user, trigger, token }: any) {
-      //Set the user ID from the token
-
-      session.user.id = token.sub;
-      // If there is an update, set the user name
-      if (trigger == 'update') {
-        session.user.name = user.name;
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token && session.user) {
+        if (token.id) session.user.id = token.id;
+        if (token.role) session.user.role = token.role;
       }
       return session;
     },
   },
-} satisfies NextAuthOptions;
-
-export default NextAuth(config);
+});
