@@ -7,7 +7,7 @@ export const sampleData: Data = {
       name: 'Classic T-Shirt',
       slug: 'classic-tshirt',
       category: 'Clothing',
-      images: ['/images/tshirt.png'],
+      images: ['/images/tshirt.png', '/images/tshirt-1.png'],
       price: '29.99',
       brand: 'UrbanWear',
       rating: '4.5',

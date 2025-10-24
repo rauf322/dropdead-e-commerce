@@ -11,7 +11,7 @@ export async function getLatestProducts(): Promise<Product[]> {
     orderBy: { createdAt: 'desc' },
   });
 
-  return convertToPlainObject(data);
+  return convertToPlainObject<Product[]>(data);
 }
 
 export async function getProductBySlug(slug: string) {

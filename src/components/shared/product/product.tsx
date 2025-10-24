@@ -1,9 +1,9 @@
 import Loading from '@/app/loading';
-import { Product } from '@/types/index';
 import ProductCard from './product-card';
+import { Product } from '@/types';
 
 const ProductList = ({ data, title }: { data: Product[]; title?: string }) => {
-  if (data.length == 0) {
+  if (data.length === 0) {
     return <Loading />;
   }
   return (
