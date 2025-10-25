@@ -8,9 +8,14 @@ import {
 import { APP_NAME } from '@/lib/constants';
 import Image from 'next/image';
 import Link from 'next/link';
-import CredentialsSignInForm from './credentials-signin-form';
 import { auth } from '@/../auth';
 import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
+import SignUpForm from './sign-up-form';
+
+export const metadata: Metadata = {
+  title: 'Sign Up',
+};
 
 const SignInPage = async (props: {
   searchParams: Promise<{ callbackUrl?: string }>;
@@ -36,13 +41,13 @@ const SignInPage = async (props: {
               className='mx-auto'
             />
           </Link>
-          <CardTitle className='text-center'>Sign In</CardTitle>
+          <CardTitle className='text-center'>Create Account</CardTitle>
           <CardDescription className='text-center mt-3'>
-            Sign in to your account
+            Enter your information below to sign up
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <CredentialsSignInForm />
+          <SignUpForm />
         </CardContent>
       </Card>
     </div>

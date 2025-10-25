@@ -1,31 +1,23 @@
 'use server';
 
-import { signInFormShema } from '../validators';
+import { signInFormShema, signUpFormShema } from '../validators';
 import { signIn, signOut } from '@/../auth';
 import { isRedirectError } from 'next/dist/client/components/redirect-error';
-import { AuthError } from 'next-auth';
+import { hashSync } from 'bcrypt-ts-edge';
+import { prisma } from '@/db/prisma';
+import { formatError } from '@/lib/utils';
 
 export async function signInWithCredentials(
   prevState: unknown,
   formData: FormData,
 ) {
   try {
-    const parsedData = signInFormShema.safeParse({
+    const user = signInFormShema.parse({
       email: formData.get('email'),
       password: formData.get('password'),
     });
 
-    if (!parsedData.success) {
-      return {
-        success: false,
-        message: 'Invalid input',
-      };
-    }
-
-    await signIn('credentials', {
-      ...parsedData.data,
-      redirectTo: '/',
-    });
+    await signIn('credentials', user);
 
     return { success: true, message: 'Signed in successfully' };
   } catch (error) {
@@ -33,16 +25,9 @@ export async function signInWithCredentials(
       throw error;
     }
 
-    if (error instanceof AuthError) {
-      return {
-        success: false,
-        message: 'Invalid email or password',
-      };
-    }
-
     return {
       success: false,
-      message: 'An error occurred',
+      message: 'Invalid email or password',
     };
   }
 }
@@ -50,4 +35,40 @@ export async function signOutUser() {
   console.log('signOutUser called');
   await signOut();
   console.log('signOut completed');
+}
+
+export async function signUpUser(prevState: unknown, formData: FormData) {
+  try {
+    const user = signUpFormShema.parse({
+      name: formData.get('name'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+      confirmPassword: formData.get('confirmPassword'),
+    });
+    const plainPassword = user.password;
+
+    user.password = hashSync(user.password, 10);
+    await prisma.user.create({
+      data: {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      },
+    });
+
+    await signIn('credentials', {
+      email: user.email,
+      password: plainPassword,
+    });
+
+    return {
+      success: true,
+      message: 'User registered and signed in successfully',
+    };
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+    return { success: false, message: formatError(error) };
+  }
 }
