@@ -4,14 +4,15 @@ import { Suspense } from 'react';
 import Loading from '@/app/loading';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import ProductImages from '@/components/shared/product/product-images';
 import AddToCart from '@/components/shared/product/add-to-cart';
+import { getMyCart } from '@/lib/actions/cart.action';
 
 async function ProductContent({ slug }: { slug: string }) {
   // await new Promise((resolve) => setTimeout(resolve, 4000));
 
   const product = await getProductBySlug(slug);
+  const cart = await getMyCart();
   if (!product) notFound();
 
   return (
@@ -62,6 +63,7 @@ async function ProductContent({ slug }: { slug: string }) {
                 {product.stock > 0 && (
                   <div className='flex justify-center'>
                     <AddToCart
+                      cart={cart}
                       item={{
                         productId: product.id,
                         name: product.name,
