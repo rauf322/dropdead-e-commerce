@@ -5,12 +5,12 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
-import { addItemCart } from '@/lib/actions/cart.action';
+import { addItemToCart } from '@/lib/actions/cart.action';
 
 const AddToCart = ({ item }: { item: CartItem }) => {
   const router = useRouter();
   const handleAddToCart = async () => {
-    const res = await addItemCart(item);
+    const res = await addItemToCart(item);
 
     if (!res.success) {
       toast.warning('Item could not be added to cart', {

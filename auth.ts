@@ -4,6 +4,8 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from './db/prisma';
 import { compareSync } from 'bcrypt-ts-edge';
 import Credentials from 'next-auth/providers/credentials';
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
 import { signInFormShema } from '@/lib/validators';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
