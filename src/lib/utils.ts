@@ -48,3 +48,17 @@ export function round2(value: number | string) {
     return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
   }
 }
+
+const CURRECY_FORMATTER = new Intl.NumberFormat('en-US', {
+  currency: 'USD',
+  style: 'currency',
+  minimumFractionDigits: 2,
+});
+
+//Format currency
+
+export function formatCurrency(value: number | string): string {
+  value = Number(value);
+  if (isNaN(value)) return '';
+  return CURRECY_FORMATTER.format(value);
+}

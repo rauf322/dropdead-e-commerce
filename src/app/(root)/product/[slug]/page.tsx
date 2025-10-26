@@ -18,7 +18,7 @@ async function ProductContent({ slug }: { slug: string }) {
   return (
     <div>
       <section>
-        <div className='grid grid-cols-1 md:grid-cols-5'>
+        <div className='grid grid-cols-1 md:grid-cols-5 '>
           {/*Images column*/}
           <div className='col-span-2'>
             <ProductImages images={product.images} />
