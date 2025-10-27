@@ -13,9 +13,7 @@ export const insertProductSchema = z.object({
   slug: z.string().min(3, 'Slug suppose to be at least 3 characters'),
   category: z.string().min(3, 'Category suppose to be at least 3 characters'),
   brand: z.string().min(3, 'Brand suppose to be at least 3 characters'),
-  description: z
-    .string()
-    .min(3, 'Description suppose to be at least 3 characters'),
+  description: z.string().min(3, 'Description suppose to be at least 3 characters'),
   stock: z.coerce.number(),
   images: z.array(z.string()).min(1, 'Product must have one image'),
   isFeatured: z.boolean(),
@@ -58,18 +56,12 @@ export const signUpFormShema = z
     name: z.string().min(2, 'Name must be at least 2 characters'),
     email: z.email('Invalid email address'),
     password: z.string().min(6, 'Password must be at least 6 characters long'),
-    confirmPassword: z
-      .string()
-      .min(6, 'Confirm password must be at least 6 characters long'),
+    confirmPassword: z.string().min(6, 'Confirm password must be at least 6 characters long'),
   })
-  .refine(
-    (data: z.infer<typeof signUpFormShema>) =>
-      data.password == data.confirmPassword,
-    {
-      message: "Passwords don't match",
-      path: ['confirmPassword'],
-    },
-  );
+  .refine((data: z.infer<typeof signUpFormShema>) => data.password == data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
 
 export const cartItemSchema = z.object({
   productId: z.string().min(1, 'Product is required'),
@@ -90,11 +82,27 @@ export const insertCartSchema = z.object({
   userId: z.string().optional().nullable(),
 });
 
-export const paymentMethodSchema = z
-  .object({
-    type: z.string().min(1, 'Payment method is required'),
-  })
-  .refine((data) => PAYMENT_METHODS.includes(data.type), {
-    path: ['type'],
-    message: 'Invalid payment method',
-  });
+export const paymentMethodSchema = z.object({
+  type: z.enum(PAYMENT_METHODS, 'Not supported payment method'),
+});
+
+export const insertOrderSchema = z.object({
+  userId: z.string().min(1, 'User is required'),
+  itemsPrice: currency,
+  taxPrice: currency,
+  shippingPric: currency,
+  totalPrice: currency,
+  paymentMethod: z.enum(PAYMENT_METHODS, 'Not supported payment method'),
+  shippingAddress: shippingAddressSchema,
+});
+
+//Schema for insering order item
+
+export const insertOrderItemSchema = z.object({
+  productId: z.string(),
+  slug: z.string(),
+  image: z.string(),
+  name: z.string(),
+  price: currency,
+  qty: z.number(),
+});
