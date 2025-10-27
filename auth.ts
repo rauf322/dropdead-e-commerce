@@ -1,15 +1,11 @@
 import NextAuth from 'next-auth';
-import type { Adapter } from '@auth/core/adapters';
-import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from './db/prisma';
 import { compareSync } from 'bcrypt-ts-edge';
 import Credentials from 'next-auth/providers/credentials';
 import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
 import { signInFormShema } from '@/lib/validators';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma) as Adapter,
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60,
@@ -34,7 +30,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const user = await prisma.user.findUnique({
           where: { email },
         });
-
         if (!user || !user.password) return null;
 
         const isPasswordValid = compareSync(password, user.password);
@@ -75,19 +70,37 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (trigger === 'signIn' || trigger === 'signUp') {
           const cookiesObject = await cookies();
           const sessionCartId = cookiesObject.get('sessionCartId')?.value;
-          if (sessionCartId) {
+
+          // Check if user already has a cart
+          const existingUserCart = await prisma.cart.findFirst({
+            where: { userId: user.id },
+          });
+
+          if (existingUserCart) {
+            return token;
+          } else if (sessionCartId) {
+            // No user cart exists, try to use session cart
             const sessionCart = await prisma.cart.findFirst({
               where: { sessionCartId },
             });
             if (sessionCart) {
-              //Delete user cart
-              await prisma.cart.deleteMany({
-                where: { userId: user.id },
-              });
-              //Sign new one
+              // Convert session cart to user cart
               await prisma.cart.update({
                 where: { id: sessionCart.id },
                 data: { userId: user.id },
+              });
+            } else {
+              // Create new cart for user
+              await prisma.cart.create({
+                data: {
+                  userId: user.id,
+                  sessionCartId: sessionCartId,
+                  items: [],
+                  itemsPrice: 0,
+                  totalPrice: 0,
+                  shippingPrice: 0,
+                  taxPrice: 0,
+                },
               });
             }
           }

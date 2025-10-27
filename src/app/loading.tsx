@@ -1,7 +1,7 @@
 'use client';
 
-import { Progress } from '@/components/ui/progress';
-import { useEffect, useState } from 'react';
+import { Progress } from '@radix-ui/react-progress';
+import { useState, useEffect } from 'react';
 
 function Loading() {
   const [progress, setProgress] = useState(0);
@@ -16,7 +16,7 @@ function Loading() {
 
     return () => clearInterval(interval);
   }, []);
-  //TODO REMOVE THIS PROGRESS BAR TO ANOTHER ONE LATER
+
   return (
     <div className='flex h-screen items-center justify-center'>
       <Progress value={progress} className='w-[60%]' />
