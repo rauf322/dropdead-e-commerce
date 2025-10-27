@@ -67,6 +67,11 @@ model Session {
   @@map("sessions")
 }
 
+enum Role {
+  user
+  admin
+}
+
 model User {
   id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String?   @default("NO_NAME")
@@ -75,7 +80,7 @@ model User {
   image         String?
   password      String?
   address       Json?     @db.Json
-  role          String    @default("user")
+  role          Role      @default(user)
   paymentMethod String?
   createdAt     DateTime  @default(now()) @db.Timestamp(6)
   updatedAt     DateTime  @updatedAt

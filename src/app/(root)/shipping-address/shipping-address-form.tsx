@@ -8,41 +8,27 @@ import { toast } from 'sonner';
 import { shippingAddressSchema } from '@/lib/validators';
 import { z } from 'zod';
 import { shippingAddressDefaultValues } from '@/lib/constants';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Loader } from 'lucide-react';
 import { updateUserAddress } from '@/lib/actions/user.actions';
 
-export default function ShippingAddressForm({
-  address,
-}: {
-  address: ShippingAddress;
-}) {
+export default function ShippingAddressForm({ address }: { address: ShippingAddress }) {
   const router = useRouter();
   const form = useForm<z.infer<typeof shippingAddressSchema>>({
     resolver: zodResolver(shippingAddressSchema),
     defaultValues: address || shippingAddressDefaultValues,
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof shippingAddressSchema>> = async (
-    values: z.infer<typeof shippingAddressSchema>,
-  ) => {
+  const onSubmit: SubmitHandler<z.infer<typeof shippingAddressSchema>> = async (values: z.infer<typeof shippingAddressSchema>) => {
     startTransition(async () => {
       const res = await updateUserAddress(values);
       if (!res.success) {
         toast.error(res.message);
         return;
       }
-      router.push('/payment');
+      router.push('/payment-method');
     });
   };
 
@@ -51,27 +37,14 @@ export default function ShippingAddressForm({
   return (
     <div className='max-w-md mx-auto space-y-4'>
       <h1 className='h2-bold mt-4'>Shipping Address</h1>
-      <p className='text-sm text-muted-foreground'>
-        Please enter the address to ship to
-      </p>
+      <p className='text-sm text-muted-foreground'>Please enter the address to ship to</p>
       <Form {...form}>
-        <form
-          method='post'
-          onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-8'
-        >
+        <form method='post' onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <div className='space-y-4'>
             <FormField
               control={form.control}
               name='fullName'
-              render={({
-                field,
-              }: {
-                field: ControllerRenderProps<
-                  z.infer<typeof shippingAddressSchema>,
-                  'fullName'
-                >;
-              }) => (
+              render={({ field }: { field: ControllerRenderProps<z.infer<typeof shippingAddressSchema>, 'fullName'> }) => (
                 <FormItem>
                   <FormLabel>Full Name</FormLabel>
                   <FormControl>
@@ -84,14 +57,7 @@ export default function ShippingAddressForm({
             <FormField
               control={form.control}
               name='streetAddress'
-              render={({
-                field,
-              }: {
-                field: ControllerRenderProps<
-                  z.infer<typeof shippingAddressSchema>,
-                  'streetAddress'
-                >;
-              }) => (
+              render={({ field }: { field: ControllerRenderProps<z.infer<typeof shippingAddressSchema>, 'streetAddress'> }) => (
                 <FormItem>
                   <FormLabel>Address</FormLabel>
                   <FormControl>
@@ -105,14 +71,7 @@ export default function ShippingAddressForm({
               <FormField
                 control={form.control}
                 name='city'
-                render={({
-                  field,
-                }: {
-                  field: ControllerRenderProps<
-                    z.infer<typeof shippingAddressSchema>,
-                    'city'
-                  >;
-                }) => (
+                render={({ field }: { field: ControllerRenderProps<z.infer<typeof shippingAddressSchema>, 'city'> }) => (
                   <FormItem>
                     <FormLabel>City</FormLabel>
                     <FormControl>
@@ -125,14 +84,7 @@ export default function ShippingAddressForm({
               <FormField
                 control={form.control}
                 name='postalCode'
-                render={({
-                  field,
-                }: {
-                  field: ControllerRenderProps<
-                    z.infer<typeof shippingAddressSchema>,
-                    'postalCode'
-                  >;
-                }) => (
+                render={({ field }: { field: ControllerRenderProps<z.infer<typeof shippingAddressSchema>, 'postalCode'> }) => (
                   <FormItem>
                     <FormLabel>Post Code</FormLabel>
                     <FormControl>
@@ -145,14 +97,7 @@ export default function ShippingAddressForm({
               <FormField
                 control={form.control}
                 name='country'
-                render={({
-                  field,
-                }: {
-                  field: ControllerRenderProps<
-                    z.infer<typeof shippingAddressSchema>,
-                    'country'
-                  >;
-                }) => (
+                render={({ field }: { field: ControllerRenderProps<z.infer<typeof shippingAddressSchema>, 'country'> }) => (
                   <FormItem>
                     <FormLabel>Country</FormLabel>
                     <FormControl>
@@ -166,12 +111,7 @@ export default function ShippingAddressForm({
           </div>
           <div className='flex gap-2'>
             <Button type='submit' disabled={isPending}>
-              {isPending ? (
-                <Loader className='w-4 h-4 animate-spin' />
-              ) : (
-                <ArrowRight className='w-4 h-4' />
-              )}{' '}
-              Continue
+              {isPending ? <Loader className='w-4 h-4 animate-spin' /> : <ArrowRight className='w-4 h-4' />} Continue
             </Button>
           </div>
         </form>
