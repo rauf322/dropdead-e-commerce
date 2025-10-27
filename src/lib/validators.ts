@@ -21,6 +21,15 @@ export const insertProductSchema = z.object({
   banner: z.string().nullable(),
   price: currency,
 });
+export const shippingAddressSchema = z.object({
+  fullName: z.string().min(2, 'Full name is required'),
+  streetAddress: z.string().min(3, 'Address must be at least 3 characters '),
+  city: z.string().min(3, 'City must be at least 3 characters '),
+  postalCode: z.string().min(3, 'Postal code must be at least 3 characters '),
+  country: z.string().min(3, 'Couhtry must be at least 3 characters '),
+  lat: z.number().optional(),
+  lng: z.number().optional(),
+});
 
 export const userAuthSchema = z.object({
   name: z.string().min(2).optional(),
@@ -28,6 +37,7 @@ export const userAuthSchema = z.object({
   emailVerified: z.date().nullable().optional(),
   image: z.string().optional(),
   password: z.string().optional(),
+  address: shippingAddressSchema,
   role: z.enum(['user', 'admin']).default('user'),
   paymentMethod: z.string().optional(),
   createdAt: z.date().default(() => new Date()),
@@ -77,3 +87,5 @@ export const insertCartSchema = z.object({
   sessionCartId: z.string().min(1, 'SessionCartId is required'),
   userId: z.string().optional().nullable(),
 });
+
+//Schema for shipping address

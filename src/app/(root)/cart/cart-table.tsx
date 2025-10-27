@@ -51,7 +51,6 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
       <div className='py-4 h2-bold'>Shopping Cart</div>
       {!cart || cart.items.length === 0 ? (
         <div>
-          {' '}
           Cart is empty . <Link href='/'>Go Shopping</Link>
         </div>
       ) : (
@@ -119,7 +118,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
               </TableBody>
             </Table>
           </div>
-          <Card>
+          <Card className='mt-10 md:mt-0'>
             <CardContent className='p-4 gap-4'>
               <div className='pb-3 text-xl'>
                 <h1>
