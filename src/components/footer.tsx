@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className='border-t'>
       <div className='p-5 flex-center'>
         {currentYear} © Your Company Name
-        {APP_NAME}. ALL RIGHTS RESERVED.
+        {' ' + APP_NAME}. ALL RIGHTS RESERVED.
       </div>
     </footer>
   );

@@ -37,7 +37,7 @@ export const userAuthSchema = z.object({
   emailVerified: z.date().nullable().optional(),
   image: z.string().optional(),
   password: z.string().optional(),
-  address: shippingAddressSchema,
+  address: shippingAddressSchema.optional(),
   role: z.enum(['user', 'admin']).default('user'),
   paymentMethod: z.string().optional(),
   createdAt: z.date().default(() => new Date()),
