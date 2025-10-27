@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 
 export default async function OrderDetailsPage(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
+
   const order = await getOrderById(id);
-  console.log(order);
-  return <div>Details</div>;
+  if (!order) notFound();
+
+  return <div></div>;
 }
