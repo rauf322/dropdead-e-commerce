@@ -90,7 +90,7 @@ export const insertOrderSchema = z.object({
   userId: z.string().min(1, 'User is required'),
   itemsPrice: currency,
   taxPrice: currency,
-  shippingPric: currency,
+  shippingPrice: currency,
   totalPrice: currency,
   paymentMethod: z.enum(PAYMENT_METHODS, 'Not supported payment method'),
   shippingAddress: shippingAddressSchema,

@@ -57,7 +57,7 @@ export default function PaymentMethodForm({ prefetchedPaymentMethod }: { prefetc
                         {PAYMENT_METHODS.map((method) => (
                           <FormItem key={method} className='flex items-center space-x-3 space-y-0'>
                             <FormControl>
-                              <RadioGroupItem value={method} />
+                              <RadioGroupItem value={method} checked={method === prefetchedPaymentMethod} />
                             </FormControl>
                             <FormLabel className='font-normal'>{method}</FormLabel>
                           </FormItem>
