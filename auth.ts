@@ -71,15 +71,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const cookiesObject = await cookies();
           const sessionCartId = cookiesObject.get('sessionCartId')?.value;
 
-          // Check if user already has a cart
-          const existingUserCart = await prisma.cart.findFirst({
-            where: { userId: user.id },
-          });
-
-          if (existingUserCart) {
-            return token;
-          } else if (sessionCartId) {
-            // No user cart exists, try to use session cart
+          if (sessionCartId) {
+            // Try to find session cart and link it to user
             const sessionCart = await prisma.cart.findFirst({
               where: { sessionCartId },
             });
