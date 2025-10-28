@@ -45,11 +45,10 @@ export type OrderItem = z.infer<typeof insertOrderItemSchema>;
 export type Order = z.infer<typeof insertOrderSchema> & {
   id: string;
   createdAt: Date;
-  status: 'pending' | 'shipped' | 'delivered' | 'cancelled';
   isPaid: boolean;
   paidAt: Date | null;
   isDelivered: boolean;
   deliveredAt: Date | null;
   orderitems: OrderItem[];
-  user: { name: string; email: string };
+  user: { name: string | null; email: string | null };
 };

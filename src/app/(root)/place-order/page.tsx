@@ -56,7 +56,7 @@ export default async function PlaceOrderPage() {
               <h2 className='text-xl pb-4'>Payment Method</h2>
               <p>{user.paymentMethod}</p>
               <div className='mt-3'>
-                <Link href='/shipping-address'>
+                <Link href='/payment-method'>
                   <Button variant='outline'>Edit</Button>
                 </Link>
               </div>

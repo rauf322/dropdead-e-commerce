@@ -10,6 +10,7 @@ import Image from 'next/image';
 
 export default function OrderDetailsTable({ order }: { order: Order }) {
   const {
+    id,
     shippingAddress,
     orderitems,
     itemsPrice,
@@ -19,7 +20,6 @@ export default function OrderDetailsTable({ order }: { order: Order }) {
     paymentMethod,
     isDelivered,
     isPaid,
-    id,
     paidAt,
     deliveredAt,
   } = order;

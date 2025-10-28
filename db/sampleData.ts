@@ -93,12 +93,12 @@ export const sampleData: Data = {
       itemsPrice: '179.97',
       taxPrice: '0.00',
       shippingPrice: '0.00',
+      status: 'SHIPPED',
       totalPrice: '179.97',
       isPaid: true,
       paidAt: new Date('2024-01-15'),
       isDelivered: true,
       deliveredAt: new Date('2024-01-16'),
-      status: 'delivered',
       createdAt: new Date('2024-01-15'),
       orderitems: [
         {
@@ -142,7 +142,7 @@ export const sampleData: Data = {
       paidAt: new Date('2024-01-20'),
       isDelivered: false,
       deliveredAt: null,
-      status: 'shipped',
+      status: 'SHIPPED',
       createdAt: new Date('2024-01-20'),
       orderitems: [
         {

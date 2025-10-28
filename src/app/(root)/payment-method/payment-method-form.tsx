@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { RadioGroup } from '@radix-ui/react-radio-group';
 import { Loader, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
@@ -26,6 +26,7 @@ export default function PaymentMethodForm({ prefetchedPaymentMethod }: { prefetc
   });
 
   const [isPending, startTransition] = useTransition();
+  const [paymentMethod, setPaymentMethod] = useState(prefetchedPaymentMethod);
 
   async function onSubmit(values: z.infer<typeof paymentMethodSchema>) {
     startTransition(async () => {
@@ -57,7 +58,7 @@ export default function PaymentMethodForm({ prefetchedPaymentMethod }: { prefetc
                         {PAYMENT_METHODS.map((method) => (
                           <FormItem key={method} className='flex items-center space-x-3 space-y-0'>
                             <FormControl>
-                              <RadioGroupItem value={method} checked={method === prefetchedPaymentMethod} />
+                              <RadioGroupItem onClick={() => setPaymentMethod(method)} value={method} checked={method === paymentMethod} />
                             </FormControl>
                             <FormLabel className='font-normal'>{method}</FormLabel>
                           </FormItem>
