@@ -157,12 +157,16 @@ export async function approvePayPalOrder(orderId: string, data: { orderID: strin
     if (!captureData || captureData.id !== (order.paymentResult as PaymentResult)?.id || captureData.status !== 'COMPLETED') {
       throw new Error('Payment not completed');
     }
+    
+    // Extract price paid from PayPal response
+    const pricePaid = captureData.purchase_units?.[0]?.payments?.captures?.[0]?.amount?.value;
+    
     // Update order to paid
     await updateOrderToPaid(orderId, {
       id: captureData.id,
       status: captureData.status,
-      email_address: captureData.payer.email_address,
-      pricePaid: captureData.purchase_units[0]?.payments?.captures[0]?.amount?.value,
+      email_address: captureData.payer?.email_address || '',
+      pricePaid: pricePaid ? String(pricePaid) : '0',
     });
     revalidatePath(`/order/${orderId}`);
     return {
