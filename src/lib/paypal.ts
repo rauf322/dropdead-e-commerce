@@ -4,7 +4,7 @@ export const paypal = {};
 
 //Generate Access Token
 
-async function generateAccessToken() {
+export async function generateAccessToken() {
   const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET } = process.env;
   const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_APP_SECRET}`).toString('base64');
   const response = await fetch(`${base}/v1/oauth2/token`, {
@@ -23,3 +23,15 @@ async function generateAccessToken() {
     throw new Error(errorMessage);
   }
 }
+
+async function testPaypal() {
+  try {
+    const token = await generateAccessToken();
+    console.log('✅ Success! Token:', token);
+    console.log('Token length:', token.length);
+  } catch (error) {
+    console.error('❌ Error:', error);
+  }
+}
+
+testPaypal();
