@@ -136,7 +136,7 @@ export default function OrderDetailsTable({ order, paypalClientId }: { order: Or
               </div>
               {/*PayPal Payment*/}
               {!isPaid && paymentMethod === 'PayPal' && (
-                <div>
+                <div style={{ colorScheme: 'none' }}>
                   <PayPalScriptProvider options={{ clientId: paypalClientId }}>
                     <PrintLoadingState />
                     <PayPalButtons createOrder={handleApprovePayPalOrder} onApprove={handleCreatePayPalOrder} />
