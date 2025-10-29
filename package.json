@@ -9,7 +9,7 @@
     "lint": "eslint",
     "postinstall": "prisma generate",
     "test": "vitest",
-    "test:ui": "vitest -- --ui"
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@auth/core": "0.37.2",

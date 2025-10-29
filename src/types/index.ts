@@ -7,6 +7,7 @@ import {
   shippingAddressSchema,
   insertOrderSchema,
   insertOrderItemSchema,
+  paymentResultSchema,
 } from '../lib/validators';
 
 export type Product = z.infer<typeof insertProductSchema> & {
@@ -17,12 +18,6 @@ export type Product = z.infer<typeof insertProductSchema> & {
 };
 
 export type User = z.infer<typeof userAuthSchema>;
-
-export type OrderedItem = {
-  productId: string;
-  quantity: number;
-  price: number;
-};
 
 // Seed data types (without auto-generated fields)
 export type SeedProduct = Omit<Product, 'id'>;
@@ -52,3 +47,5 @@ export type Order = z.infer<typeof insertOrderSchema> & {
   orderitems: OrderItem[];
   user: { name: string | null; email: string | null };
 };
+
+export type PaymentResult = z.infer<typeof paymentResultSchema>;
