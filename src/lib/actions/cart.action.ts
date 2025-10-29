@@ -9,7 +9,6 @@ import { cartItemSchema, insertCartSchema } from '../validators';
 import { round2 } from '../utils';
 import { revalidatePath } from 'next/cache';
 import { Prisma } from '@prisma/client';
-import { success } from 'zod';
 
 const calcPrice = (items: CartItem[]) => {
   const itemsPrice = round2(

@@ -12,7 +12,7 @@ import { hashSync } from 'bcrypt-ts-edge';
 import { prisma } from '@/db/prisma';
 import { formatError } from '@/lib/utils';
 import { ShippingAddress } from '@/types';
-import z, { success } from 'zod';
+import z from 'zod';
 
 export async function signInWithCredentials(_: unknown, formData: FormData) {
   try {
