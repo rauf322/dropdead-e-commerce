@@ -13,7 +13,9 @@ export const insertProductSchema = z.object({
   slug: z.string().min(3, 'Slug suppose to be at least 3 characters'),
   category: z.string().min(3, 'Category suppose to be at least 3 characters'),
   brand: z.string().min(3, 'Brand suppose to be at least 3 characters'),
-  description: z.string().min(3, 'Description suppose to be at least 3 characters'),
+  description: z
+    .string()
+    .min(3, 'Description suppose to be at least 3 characters'),
   stock: z.coerce.number(),
   images: z.array(z.string()).min(1, 'Product must have one image'),
   isFeatured: z.boolean(),
@@ -56,12 +58,18 @@ export const signUpFormShema = z
     name: z.string().min(2, 'Name must be at least 2 characters'),
     email: z.email('Invalid email address'),
     password: z.string().min(6, 'Password must be at least 6 characters long'),
-    confirmPassword: z.string().min(6, 'Confirm password must be at least 6 characters long'),
+    confirmPassword: z
+      .string()
+      .min(6, 'Confirm password must be at least 6 characters long'),
   })
-  .refine((data: z.infer<typeof signUpFormShema>) => data.password == data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ['confirmPassword'],
-  });
+  .refine(
+    (data: z.infer<typeof signUpFormShema>) =>
+      data.password == data.confirmPassword,
+    {
+      message: "Passwords don't match",
+      path: ['confirmPassword'],
+    },
+  );
 
 export const cartItemSchema = z.object({
   productId: z.string().min(1, 'Product is required'),
@@ -94,7 +102,13 @@ export const insertOrderSchema = z.object({
   totalPrice: currency,
   paymentMethod: z.enum(PAYMENT_METHODS, 'Not supported payment method'),
   shippingAddress: shippingAddressSchema,
-  status: z.enum(['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'] as const),
+  status: z.enum([
+    'PENDING',
+    'PROCESSING',
+    'SHIPPED',
+    'DELIVERED',
+    'CANCELLED',
+  ] as const),
 });
 
 //Schema for insering order item
@@ -113,4 +127,9 @@ export const paymentResultSchema = z.object({
   status: z.string(),
   email_address: z.string(),
   pricePaid: z.string(),
+});
+
+export const updateUserProfile = z.object({
+  name: z.string().min(3, 'Name must be at least three'),
+  email: z.string().min(3, 'Email must be at least three'),
 });

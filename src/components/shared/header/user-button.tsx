@@ -2,12 +2,7 @@ import { auth } from '@/../auth';
 import { Button } from '@/components/ui/button';
 import { UserIcon } from 'lucide-react';
 import Link from 'next/link';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-  DropdownMenuLabel,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import SignOutItem from './sing-out-item';
 
 const UserButton = async () => {
@@ -39,14 +34,20 @@ const UserButton = async () => {
         <DropdownMenuContent className='w-56 ' align='end' forceMount>
           <DropdownMenuLabel className='font-normal'>
             <div className='flex flex-col space-y-1'>
-              <div className='flex-sm font-bold leading-none'>
-                {session.user?.name}
-              </div>
-              <div className='flex-sm font-foreground leading-none'>
-                {session.user?.email}
-              </div>
+              <div className='flex-sm font-bold leading-none'>{session.user?.name}</div>
+              <div className='flex-sm font-foreground leading-none'>{session.user?.email}</div>
             </div>
           </DropdownMenuLabel>
+          <DropdownMenuItem>
+            <Link href='/user/orders' className='w-full'>
+              Order History
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href='/user/profile' className='w-full'>
+              User Profile
+            </Link>
+          </DropdownMenuItem>
           <SignOutItem />
         </DropdownMenuContent>
       </DropdownMenu>

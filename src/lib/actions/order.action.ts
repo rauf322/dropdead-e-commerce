@@ -10,7 +10,7 @@ import { prisma } from '@/db/prisma';
 import { CartItem, Order, PaymentResult } from '@/types';
 import { paypal } from '../paypal';
 import { revalidatePath } from 'next/cache';
-import { success } from 'zod';
+import { PAGE_SIZE } from '../constants';
 
 export async function createOrder() {
   try {
@@ -157,10 +157,10 @@ export async function approvePayPalOrder(orderId: string, data: { orderID: strin
     if (!captureData || captureData.id !== (order.paymentResult as PaymentResult)?.id || captureData.status !== 'COMPLETED') {
       throw new Error('Payment not completed');
     }
-    
+
     // Extract price paid from PayPal response
     const pricePaid = captureData.purchase_units?.[0]?.payments?.captures?.[0]?.amount?.value;
-    
+
     // Update order to paid
     await updateOrderToPaid(orderId, {
       id: captureData.id,
@@ -226,4 +226,22 @@ async function updateOrderToPaid(orderId: string, paymentResult?: PaymentResult)
     },
   });
   if (!updatedOrder) throw new Error('Order not found after update');
+}
+export async function getMyOrders({ limit = PAGE_SIZE, page }: { limit?: number; page: number }) {
+  const session = await auth();
+  if (!session) throw new Error('User not authenticated');
+
+  const data = await prisma.order.findMany({
+    where: { userId: session?.user?.id },
+    orderBy: { createdAt: 'desc' },
+    take: limit,
+    skip: (page - 1) * limit,
+  });
+  const dataCount = await prisma.order.count({
+    where: { userId: session.user.id! },
+  });
+  return {
+    data,
+    totalPage: Math.ceil(dataCount / limit),
+  };
 }
