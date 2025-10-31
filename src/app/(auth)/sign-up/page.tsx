@@ -1,31 +1,25 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { APP_NAME } from '@/lib/constants';
-import Image from 'next/image';
-import Link from 'next/link';
-import { auth } from '@/../auth';
-import { redirect } from 'next/navigation';
-import { Metadata } from 'next';
-import SignUpForm from './sign-up-form';
+import SignUpForm from './sign-up-form'
+import { auth } from '@/../auth'
+import { type Metadata } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+
+import { APP_NAME } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Sign Up',
-};
+  title: 'Sign Up'
+}
 
-const SignInPage = async (props: {
-  searchParams: Promise<{ callbackUrl?: string }>;
-}) => {
-  const { callbackUrl } = await props.searchParams;
+const SignInPage = async (props: { searchParams: Promise<{ callbackUrl?: string }> }) => {
+  const { callbackUrl } = await props.searchParams
 
-  const session = await auth();
+  const session = await auth()
 
   if (session) {
-    return redirect(callbackUrl || '/');
+    return redirect(callbackUrl || '/')
   }
 
   return (
@@ -51,7 +45,7 @@ const SignInPage = async (props: {
         </CardContent>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default SignInPage;
+export default SignInPage

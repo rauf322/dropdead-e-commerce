@@ -1,16 +1,16 @@
-import { getOrderById } from '@/lib/actions/order.action'
-import { ShippingAddress } from '@/types'
-import { notFound } from 'next/navigation'
-import { Metadata } from 'next'
 import OrderDetailsTable from './order-details-table'
-export const metadata: Metadata = {
-  title: 'Order Details',
-}
+import { type ShippingAddress } from '@/types'
+import { type Metadata } from 'next'
+import { notFound } from 'next/navigation'
+
+import { getOrderById } from '@/lib/actions/order.action'
 import { STATUS } from '@/lib/constants'
 
-export default async function OrderDetailsPage(props: {
-  params: Promise<{ id: string }>
-}) {
+export const metadata: Metadata = {
+  title: 'Order Details'
+}
+
+export default async function OrderDetailsPage(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params
 
   const order = await getOrderById(id)
@@ -28,7 +28,7 @@ export default async function OrderDetailsPage(props: {
     <OrderDetailsTable
       order={{
         ...order,
-        shippingAddress: order.shippingAddress as ShippingAddress,
+        shippingAddress: order.shippingAddress as ShippingAddress
       }}
       paypalClientId={process.env.PAYPAL_CLIENT_ID || 'sb'}
     />

@@ -1,39 +1,52 @@
-'use client';
+'use client'
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { signUpDefaultValues } from '@/lib/constants';
-import Link from 'next/link';
-import { signUpUser } from '@/lib/actions/user.actions';
-import { useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
-import { useSearchParams } from 'next/navigation';
+import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
+import { useActionState } from 'react'
+import { useFormStatus } from 'react-dom'
+
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+
+import { signUpUser } from '@/lib/actions/user.actions'
+import { signUpDefaultValues } from '@/lib/constants'
 
 const CredentialsSignUpForm = () => {
   const [data, action] = useActionState(signUpUser, {
     success: false,
-    message: '',
-  });
+    message: ''
+  })
 
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/'
 
   const SignUpButton = () => {
-    const { pending } = useFormStatus();
+    const { pending } = useFormStatus()
     return (
-      <Button disabled={pending} className='w-full' variant='default'>
+      <Button
+        disabled={pending}
+        className='w-full'
+        variant='default'
+      >
         {pending ? 'Submitting...' : 'Sign Up'}
       </Button>
-    );
-  };
+    )
+  }
 
   return (
     <form action={action}>
-      <input type='hidden' name='callbackUrl' value={callbackUrl} />
+      <input
+        type='hidden'
+        name='callbackUrl'
+        value={callbackUrl}
+      />
       <div className='space-y-2'>
         <div className='mt-5'>
-          <Label htmlFor='password' className='mb-2'>
+          <Label
+            htmlFor='password'
+            className='mb-2'
+          >
             Name
           </Label>
           <Input
@@ -45,7 +58,10 @@ const CredentialsSignUpForm = () => {
           />
         </div>
         <div>
-          <Label htmlFor='email' className='mb-2'>
+          <Label
+            htmlFor='email'
+            className='mb-2'
+          >
             Email
           </Label>
           <Input
@@ -57,7 +73,10 @@ const CredentialsSignUpForm = () => {
           />
         </div>
         <div className='mt-5'>
-          <Label htmlFor='password' className='mb-2'>
+          <Label
+            htmlFor='password'
+            className='mb-2'
+          >
             Password
           </Label>
           <Input
@@ -70,7 +89,10 @@ const CredentialsSignUpForm = () => {
           />
         </div>
         <div className='mt-5'>
-          <Label htmlFor='confirmPassword' className='mb-2'>
+          <Label
+            htmlFor='confirmPassword'
+            className='mb-2'
+          >
             Confirm Password
           </Label>
           <Input
@@ -93,7 +115,7 @@ const CredentialsSignUpForm = () => {
         </div>
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default CredentialsSignUpForm;
+export default CredentialsSignUpForm

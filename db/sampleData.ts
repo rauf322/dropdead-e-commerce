@@ -1,5 +1,5 @@
-import { Data } from '../src/types/index';
-import { hashSync } from 'bcrypt-ts-edge';
+import { type Data } from '../src/types/index'
+import { hashSync } from 'bcrypt-ts-edge'
 
 export const sampleData: Data = {
   products: [
@@ -16,7 +16,7 @@ export const sampleData: Data = {
       description: 'Comfortable cotton t-shirt perfect for everyday wear.',
       isFeatured: true,
       banner: null,
-      createdAt: new Date('2024-01-01'),
+      createdAt: new Date('2024-01-01')
     },
     {
       name: 'Premium T-Shirt',
@@ -31,7 +31,7 @@ export const sampleData: Data = {
       description: 'Premium quality t-shirt with modern fit and design.',
       isFeatured: true,
       banner: null,
-      createdAt: new Date('2024-01-02'),
+      createdAt: new Date('2024-01-02')
     },
     {
       name: 'Cozy Hoodie',
@@ -46,7 +46,7 @@ export const sampleData: Data = {
       description: 'Warm and comfortable hoodie for casual wear.',
       isFeatured: false,
       banner: null,
-      createdAt: new Date('2024-01-03'),
+      createdAt: new Date('2024-01-03')
     },
     {
       name: 'Winter Jacket',
@@ -61,22 +61,22 @@ export const sampleData: Data = {
       description: 'Insulated winter jacket to keep you warm in cold weather.',
       isFeatured: true,
       banner: null,
-      createdAt: new Date('2024-01-04'),
-    },
+      createdAt: new Date('2024-01-04')
+    }
   ],
   users: [
     {
       name: 'John Doe',
       email: 'john@example.com',
       password: hashSync('123456', 10),
-      role: 'admin',
+      role: 'admin'
     },
     {
       name: 'Jane Smith',
       email: 'jane@example.com',
       password: hashSync('123456', 10),
-      role: 'user',
-    },
+      role: 'user'
+    }
   ],
   orders: [
     {
@@ -87,7 +87,7 @@ export const sampleData: Data = {
         streetAddress: '123 Main St',
         city: 'New York',
         postalCode: '10001',
-        country: 'USA',
+        country: 'USA'
       },
       paymentMethod: 'Credit Card',
       itemsPrice: '179.97',
@@ -107,7 +107,7 @@ export const sampleData: Data = {
           name: 'Classic T-Shirt',
           image: '/images/tshirt.png',
           qty: 1,
-          price: '99.99',
+          price: '99.99'
         },
         {
           productId: '3',
@@ -115,13 +115,13 @@ export const sampleData: Data = {
           name: 'Cozy Hoodie',
           image: '/images/hoodie.png',
           qty: 2,
-          price: '39.99',
-        },
+          price: '39.99'
+        }
       ],
       user: {
         name: 'John Doe',
-        email: 'john@example.com',
-      },
+        email: 'john@example.com'
+      }
     },
     {
       id: '2',
@@ -131,7 +131,7 @@ export const sampleData: Data = {
         streetAddress: '456 Oak Ave',
         city: 'Los Angeles',
         postalCode: '90001',
-        country: 'USA',
+        country: 'USA'
       },
       paymentMethod: 'PayPal',
       itemsPrice: '249.99',
@@ -151,13 +151,13 @@ export const sampleData: Data = {
           name: 'Premium T-Shirt',
           image: '/images/tshirt2.png',
           qty: 1,
-          price: '249.99',
-        },
+          price: '249.99'
+        }
       ],
       user: {
         name: 'Jane Smith',
-        email: 'jane@example.com',
-      },
-    },
-  ],
-};
+        email: 'jane@example.com'
+      }
+    }
+  ]
+}

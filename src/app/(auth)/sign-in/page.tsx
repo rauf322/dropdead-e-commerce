@@ -1,31 +1,25 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { APP_NAME } from '@/lib/constants';
-import Image from 'next/image';
-import Link from 'next/link';
-import CredentialsSignInForm from './credentials-signin-form';
-import { auth } from '@/../auth';
-import { redirect } from 'next/navigation';
-import { Metadata } from 'next';
+import CredentialsSignInForm from './credentials-signin-form'
+import { auth } from '@/../auth'
+import { type Metadata } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+
+import { APP_NAME } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Sign In',
-};
+  title: 'Sign In'
+}
 
-const SignInPage = async (props: {
-  searchParams: Promise<{ callbackUrl?: string }>;
-}) => {
-  const { callbackUrl } = await props.searchParams;
+const SignInPage = async (props: { searchParams: Promise<{ callbackUrl?: string }> }) => {
+  const { callbackUrl } = await props.searchParams
 
-  const session = await auth();
+  const session = await auth()
 
   if (session) {
-    return redirect(callbackUrl || '/');
+    return redirect(callbackUrl || '/')
   }
 
   return (
@@ -42,16 +36,14 @@ const SignInPage = async (props: {
             />
           </Link>
           <CardTitle className='text-center'>Sign In</CardTitle>
-          <CardDescription className='text-center mt-3'>
-            Sign in to your account
-          </CardDescription>
+          <CardDescription className='text-center mt-3'>Sign in to your account</CardDescription>
         </CardHeader>
         <CardContent>
           <CredentialsSignInForm />
         </CardContent>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default SignInPage;
+export default SignInPage

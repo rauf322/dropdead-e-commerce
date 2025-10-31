@@ -1,14 +1,16 @@
-'use client';
+'use client'
 
-import { Product as ProductType } from '@/types/index';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Heart } from 'lucide-react';
-import { useState } from 'react';
+import { Heart } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
+
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+
+import type { Product as ProductType } from '@/types/index'
 
 const ProductCard = ({ product }: { product: ProductType }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
     <Card className='w-full max-w-sm group relative'>
@@ -38,7 +40,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
         </p>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default ProductCard

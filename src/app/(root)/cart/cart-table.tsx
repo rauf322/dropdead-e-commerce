@@ -1,49 +1,52 @@
-'use client';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+'use client'
+
+import type { Cart, CartItem } from '@/types'
+import { ArrowRight, Loader, Minus, Plus } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useTransition } from 'react'
+import { toast } from 'sonner'
+
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.action';
-import { formatCurrency } from '@/lib/utils';
-import { Cart, CartItem } from '@/types';
-import { ArrowRight, Loader, Minus, Plus } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useTransition } from 'react';
-import { toast } from 'sonner';
+  TableRow
+} from '@/components/ui/table'
+
+import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.action'
+import { formatCurrency } from '@/lib/utils'
 
 export const CartTable = ({ cart }: { cart?: Cart }) => {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
 
   function removeItemFromCartHandler(productId: string) {
     startTransition(async () => {
-      const res = await removeItemFromCart(productId);
+      const res = await removeItemFromCart(productId)
       if (!res.success) {
-        toast.error(res.message);
+        toast.error(res.message)
 
-        return;
+        return
       }
-      toast.success(res.message);
-    });
+      toast.success(res.message)
+    })
   }
   function addItemFromCartHandler(item: CartItem) {
     startTransition(async () => {
-      const res = await addItemToCart(item);
+      const res = await addItemToCart(item)
       if (!res.success) {
-        toast.error(res.message);
+        toast.error(res.message)
 
-        return;
+        return
       }
-      toast.success(res.message);
-    });
+      toast.success(res.message)
+    })
   }
 
   return (
@@ -51,7 +54,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
       <div className='py-4 h2-bold'>Shopping Cart</div>
       {!cart || cart.items.length === 0 ? (
         <div>
-          Cart is empty . <Link href='/'>Go Shopping</Link>
+          Cart is empty. <Link href='/'>Go Shopping</Link>
         </div>
       ) : (
         <div className='grid md:grid-cols-4 md:gap-5'>
@@ -65,7 +68,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {cart.items.map((item) => (
+                {cart.items.map(item => (
                   <TableRow key={item.slug}>
                     <TableCell>
                       <Link
@@ -87,9 +90,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
                           disabled={isPending}
                           variant='outline'
                           type='button'
-                          onClick={() =>
-                            removeItemFromCartHandler(item.productId)
-                          }
+                          onClick={() => removeItemFromCartHandler(item.productId)}
                         >
                           {isPending ? (
                             <Loader className='w-4 h-4 animate-spin' />
@@ -121,20 +122,13 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
           <Card className='mt-10 md:mt-0'>
             <CardContent className='p-4 gap-4'>
               <div className='pb-3 text-xl'>
-                <h1>
-                  Subtotal: (
-                  {cart.items.reduce((acc, item) => acc + item.qty, 0)})
-                </h1>
-                <span className='font-bold'>
-                  {formatCurrency(cart.itemsPrice)}
-                </span>
+                <h1>Subtotal: ({cart.items.reduce((acc, item) => acc + item.qty, 0)})</h1>
+                <span className='font-bold'>{formatCurrency(cart.itemsPrice)}</span>
               </div>
               <Button
                 className='w-full'
                 disabled={isPending}
-                onClick={() =>
-                  startTransition(() => router.push('/shipping-address'))
-                }
+                onClick={() => startTransition(() => router.push('/shipping-address'))}
               >
                 {isPending ? (
                   <Loader className='w-4 h-4 animate-spin' />
@@ -148,5 +142,5 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
         </div>
       )}
     </>
-  );
-};
+  )
+}

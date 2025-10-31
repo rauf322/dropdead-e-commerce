@@ -1,25 +1,29 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import '../../assets/styles/globals.css';
-import { APP_NAME, SERVER_URL } from '../lib/constants';
-import { ThemeProvider } from 'next-themes';
-import { Toaster } from '@/components/ui/sonner';
+import '../../assets/styles/globals.css'
+import { APP_NAME, SERVER_URL } from '../lib/constants'
+import type { Metadata } from 'next'
+import { ThemeProvider } from 'next-themes'
+import { Inter } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+import { Toaster } from '@/components/ui/sonner'
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
   title: `${APP_NAME}`,
   description: 'A modern built-in AI store',
-  metadataBase: new URL(SERVER_URL || 'http://localhost:4000'),
-};
+  metadataBase: new URL(SERVER_URL || 'http://localhost:4000')
+}
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html
+      lang='en'
+      suppressHydrationWarning
+    >
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider
           attribute='class'
@@ -32,5 +36,5 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

@@ -1,17 +1,36 @@
-'use client';
+'use client'
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
-import { formatCurrency, formatDateTime, formatId } from '@/lib/utils';
-import { Order } from '@/types';
-import Link from 'next/link';
-import Image from 'next/image';
-import { PayPalButtons, PayPalScriptProvider, usePayPalScriptReducer } from '@paypal/react-paypal-js';
-import { createPayPalOrder, approvePayPalOrder } from '@/lib/actions/order.action';
-import { toast } from 'sonner';
+import { type Order } from '@/types'
+import {
+  PayPalButtons,
+  PayPalScriptProvider,
+  usePayPalScriptReducer
+} from '@paypal/react-paypal-js'
+import Image from 'next/image'
+import Link from 'next/link'
+import { toast } from 'sonner'
 
-export default function OrderDetailsTable({ order, paypalClientId }: { order: Order; paypalClientId: string }) {
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
+
+import { approvePayPalOrder, createPayPalOrder } from '@/lib/actions/order.action'
+import { formatCurrency, formatDateTime, formatId } from '@/lib/utils'
+
+export default function OrderDetailsTable({
+  order,
+  paypalClientId
+}: {
+  order: Order
+  paypalClientId: string
+}) {
   const {
     shippingAddress,
     orderitems,
@@ -23,34 +42,34 @@ export default function OrderDetailsTable({ order, paypalClientId }: { order: Or
     isDelivered,
     isPaid,
     paidAt,
-    deliveredAt,
-  } = order;
+    deliveredAt
+  } = order
 
   const PrintLoadingState = () => {
-    const [{ isPending, isRejected }] = usePayPalScriptReducer();
-    let status = '';
+    const [{ isPending, isRejected }] = usePayPalScriptReducer()
+    let status = ''
     if (isPending) {
-      status = 'Loading PayPal...';
+      status = 'Loading PayPal...'
     } else if (isRejected) {
-      status = 'Error Loading PayPal';
+      status = 'Error Loading PayPal'
     }
-    return status;
-  };
+    return status
+  }
   const handleApprovePayPalOrder = async () => {
-    const res = await createPayPalOrder(order.id);
+    const res = await createPayPalOrder(order.id)
     if (!res.success) {
-      toast.error(res.message);
+      toast.error(res.message)
     }
-    return res.data;
-  };
+    return res.data
+  }
   const handleCreatePayPalOrder = async (data: { orderID: string }) => {
-    const res = await approvePayPalOrder(order.id, data);
+    const res = await approvePayPalOrder(order.id, data)
     if (res.success) {
-      toast.success(res.message);
+      toast.success(res.message)
     } else if (!res.success) {
-      toast.error(res.message);
+      toast.error(res.message)
     }
-  };
+  }
   return (
     <>
       <h1 className='py-4 text-2xl'>Order {formatId(order.id)}</h1>
@@ -94,11 +113,19 @@ export default function OrderDetailsTable({ order, paypalClientId }: { order: Or
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {orderitems.map((item) => (
+                  {orderitems.map(item => (
                     <TableRow key={item.slug}>
                       <TableCell>
-                        <Link href={`/product/${item.slug}`} className='flex items-center'>
-                          <Image src={item.image} alt={item.name} width={50} height={50} />
+                        <Link
+                          href={`/product/${item.slug}`}
+                          className='flex items-center'
+                        >
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={50}
+                            height={50}
+                          />
                           <span className='px-2'>{item.name}</span>
                         </Link>
                       </TableCell>
@@ -139,7 +166,10 @@ export default function OrderDetailsTable({ order, paypalClientId }: { order: Or
                 <div style={{ colorScheme: 'none' }}>
                   <PayPalScriptProvider options={{ clientId: paypalClientId }}>
                     <PrintLoadingState />
-                    <PayPalButtons createOrder={handleApprovePayPalOrder} onApprove={handleCreatePayPalOrder} />
+                    <PayPalButtons
+                      createOrder={handleApprovePayPalOrder}
+                      onApprove={handleCreatePayPalOrder}
+                    />
                   </PayPalScriptProvider>
                 </div>
               )}
@@ -148,5 +178,5 @@ export default function OrderDetailsTable({ order, paypalClientId }: { order: Or
         </div>
       </div>
     </>
-  );
+  )
 }

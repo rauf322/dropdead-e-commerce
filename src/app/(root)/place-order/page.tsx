@@ -1,35 +1,44 @@
-import { getMyCart } from '@/lib/actions/cart.action';
-import PlaceOrderForm from './place-order';
-import { getUserById } from '@/lib/actions/user.actions';
-import { Metadata } from 'next';
-import { auth } from '@/../auth';
-import { redirect } from 'next/navigation';
-import { ShippingAddress } from '@/types';
-import CheckoutSteps from '@/components/shared/checkout-steps';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
-import { formatCurrency } from '@/lib/utils';
+import PlaceOrderForm from './place-order'
+import { auth } from '@/../auth'
+import { type ShippingAddress } from '@/types'
+import { type Metadata } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+
+import CheckoutSteps from '@/components/shared/checkout-steps'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
+
+import { getMyCart } from '@/lib/actions/cart.action'
+import { getUserById } from '@/lib/actions/user.actions'
+import { formatCurrency } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'Place Order',
-};
+  title: 'Place Order'
+}
 export default async function PlaceOrderPage() {
-  const cart = await getMyCart();
-  const session = await auth();
-  const userId = session?.user?.id;
+  const cart = await getMyCart()
+  const session = await auth()
+  const userId = session?.user?.id
 
-  if (!userId) throw new Error('User not found');
+  if (!userId) throw new Error('User not found')
 
-  const user = await getUserById(userId);
+  const user = await getUserById(userId)
 
-  if (!cart || cart.items.length === 0) redirect('/cart');
-  if (!user.address) redirect('/shipping-address');
-  if (!user.paymentMethod) redirect('/payment-method');
+  if (!cart || cart.items.length === 0) redirect('/cart')
+  if (!user.address) redirect('/shipping-address')
+  if (!user.paymentMethod) redirect('/payment-method')
 
-  const userAddress = user.address as ShippingAddress;
+  const userAddress = user.address as ShippingAddress
 
   return (
     <>
@@ -42,7 +51,8 @@ export default async function PlaceOrderPage() {
               <h2 className='text-xl pb-4'>Shipping Address</h2>
               <p>{userAddress.fullName}</p>
               <p>
-                {userAddress.streetAddress}, {userAddress.city} {userAddress.postalCode}, {userAddress.country}{' '}
+                {userAddress.streetAddress}, {userAddress.city} {userAddress.postalCode},{' '}
+                {userAddress.country}{' '}
               </p>
               <div className='mt-3'>
                 <Link href='/shipping-address'>
@@ -74,11 +84,19 @@ export default async function PlaceOrderPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {cart.items.map((item) => (
+                  {cart.items.map(item => (
                     <TableRow key={item.slug}>
                       <TableCell>
-                        <Link href={`/product/${item.slug}`} className='flex items-center'>
-                          <Image src={item.image} alt={item.name} width={50} height={50} />
+                        <Link
+                          href={`/product/${item.slug}`}
+                          className='flex items-center'
+                        >
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={50}
+                            height={50}
+                          />
                           <span className='px-2'>{item.name}</span>
                         </Link>
                       </TableCell>
@@ -120,5 +138,5 @@ export default async function PlaceOrderPage() {
         </div>
       </div>
     </>
-  );
+  )
 }
