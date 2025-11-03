@@ -1,0 +1,12 @@
+[test]
+# Preload vitest configuration
+preload = ["./vitest.setup.ts"]
+
+# Exclude patterns for bun test
+exclude = [
+  "e2e/**",
+  "**/e2e/**",
+  "**/*.spec.ts",
+  "**/node_modules/**",
+  "**/dist/**"
+]
