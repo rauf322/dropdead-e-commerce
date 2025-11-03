@@ -1,6 +1,5 @@
 'use client'
 
-import type { Cart, CartItem } from '@/types'
 import { Loader, Minus, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
@@ -9,6 +8,8 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 
 import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.action'
+
+import type { Cart, CartItem } from '@/types'
 
 const AddToCart = ({ item, cart }: { item: CartItem; cart?: Cart }) => {
   const router = useRouter()
