@@ -1,4 +1,3 @@
-import CredentialsSignInForm from './credentials-signin-form'
 import { auth } from '@/../auth'
 import { type Metadata } from 'next'
 import Image from 'next/image'
@@ -8,6 +7,8 @@ import { redirect } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { APP_NAME } from '@/lib/constants'
+
+import CredentialsSignInForm from './sign-in-form'
 
 export const metadata: Metadata = {
   title: 'Sign In'
@@ -23,7 +24,7 @@ const SignInPage = async (props: { searchParams: Promise<{ callbackUrl?: string 
   }
 
   return (
-    <div className='flex justify-center items-center min-h-screen'>
+    <div className='flex justify-center items-center min-h-screen min-w-screen'>
       <Card className='w-full max-w-md mx-4'>
         <CardHeader>
           <Link href='/'>

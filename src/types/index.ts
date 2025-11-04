@@ -1,51 +1,57 @@
-import { z } from 'zod';
+import { z } from 'zod'
+
 import {
-  insertProductSchema,
-  userAuthSchema,
-  insertCartSchema,
   cartItemSchema,
-  shippingAddressSchema,
-  insertOrderSchema,
+  insertCartSchema,
   insertOrderItemSchema,
+  insertOrderSchema,
+  insertProductSchema,
   paymentResultSchema,
-} from '../lib/validators';
+  shippingAddressSchema,
+  userAuthSchema
+} from '../lib/validators'
 
 export type Product = z.infer<typeof insertProductSchema> & {
-  id: string;
-  rating: string;
-  numReviews: number;
-  createdAt: Date;
-};
+  id: string
+  rating: string
+  numReviews: number
+  createdAt: Date
+}
 
-export type User = z.infer<typeof userAuthSchema>;
+export type User = z.infer<typeof userAuthSchema>
 
 // Seed data types (without auto-generated fields)
-export type SeedProduct = Omit<Product, 'id'>;
-export type SeedUser = Omit<User, 'id' | 'updatedAt' | 'createdAt'>;
+export type SeedProduct = Omit<Product, 'id'>
+export type SeedUser = Omit<User, 'id' | 'updatedAt' | 'createdAt'>
 
 export type Data = {
-  products: SeedProduct[];
-  users: SeedUser[];
-  orders: Order[];
-};
+  products: SeedProduct[]
+  users: SeedUser[]
+  orders: Order[]
+}
 
-export type Cart = z.infer<typeof insertCartSchema>;
+export type Cart = z.infer<typeof insertCartSchema>
 
-export type CartItem = z.infer<typeof cartItemSchema>;
+export type CartItem = z.infer<typeof cartItemSchema>
 
-export type ShippingAddress = z.infer<typeof shippingAddressSchema>;
+export type ShippingAddress = z.infer<typeof shippingAddressSchema>
 
-export type OrderItem = z.infer<typeof insertOrderItemSchema>;
+export type OrderItem = z.infer<typeof insertOrderItemSchema>
 
 export type Order = z.infer<typeof insertOrderSchema> & {
-  id: string;
-  createdAt: Date;
-  isPaid: boolean;
-  paidAt: Date | null;
-  isDelivered: boolean;
-  deliveredAt: Date | null;
-  orderitems: OrderItem[];
-  user: { name: string | null; email: string | null };
-};
+  id: string
+  createdAt: Date
+  isPaid: boolean
+  paidAt: Date | null
+  isDelivered: boolean
+  deliveredAt: Date | null
+  orderitems: OrderItem[]
+  user: { name: string | null; email: string | null }
+}
 
-export type PaymentResult = z.infer<typeof paymentResultSchema>;
+export type PaymentResult = z.infer<typeof paymentResultSchema>
+
+export type ActionResponse = {
+  success: boolean
+  message: string
+}

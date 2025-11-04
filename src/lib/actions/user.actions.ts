@@ -5,9 +5,9 @@ import { hashSync } from 'bcrypt-ts-edge'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import z from 'zod'
 
-import { formatError } from '@/lib/utils'
+import { formatError, mockDelay } from '@/lib/utils'
 
-import type { ShippingAddress } from '@/types'
+import type { ActionResponse, ShippingAddress } from '@/types'
 
 import { prisma } from '@/db/prisma'
 
@@ -18,14 +18,24 @@ import {
   signUpFormShema
 } from '../validators'
 
-export async function signInWithCredentials(_: unknown, formData: FormData) {
+export async function signInWithCredentials(
+  prevState: ActionResponse,
+  formData: FormData
+): Promise<ActionResponse> {
   try {
-    const user = signInFormShema.parse({
+    await mockDelay(700)
+    const user = signInFormShema.safeParse({
       email: formData.get('email'),
       password: formData.get('password')
     })
 
-    await signIn('credentials', user)
+    if (!user.success) {
+      return {
+        success: false,
+        message: 'Incorrect email or password'
+      }
+    }
+    await signIn('credentials', user.data)
 
     return { success: true, message: 'Signed in successfully' }
   } catch (error) {
@@ -45,27 +55,36 @@ export async function signOutUser() {
   console.log('signOut completed')
 }
 
-export async function signUpUser(_: unknown, formData: FormData) {
+export async function signUpUser(
+  prevState: ActionResponse,
+  formData: FormData
+): Promise<ActionResponse> {
   try {
-    const user = signUpFormShema.parse({
+    const user = signUpFormShema.safeParse({
       name: formData.get('name'),
       email: formData.get('email'),
       password: formData.get('password'),
       confirmPassword: formData.get('confirmPassword')
     })
-    const plainPassword = user.password
+    if (!user.success) {
+      return {
+        success: false,
+        message: 'Invalid sign up data'
+      }
+    }
+    const plainPassword = user.data.password
 
-    user.password = hashSync(user.password, 10)
+    user.data.password = hashSync(user.data.password, 10)
     await prisma.user.create({
       data: {
-        name: user.name,
-        email: user.email,
-        password: user.password
+        name: user.data.name,
+        email: user.data.email,
+        password: user.data.password
       }
     })
 
     await signIn('credentials', {
-      email: user.email,
+      email: user.data.email,
       password: plainPassword
     })
 
@@ -77,7 +96,8 @@ export async function signUpUser(_: unknown, formData: FormData) {
     if (isRedirectError(error)) {
       throw error
     }
-    return { success: false, message: formatError(error) }
+
+    return { success: false, message: await formatError(error) }
   }
 }
 export async function getUserById(userId: string) {

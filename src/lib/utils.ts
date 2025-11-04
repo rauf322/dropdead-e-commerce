@@ -22,7 +22,7 @@ export function formatNumberWithDecimal(num: number): string {
 //Format errors
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function formatError(error: any) {
+export async function formatError(error: any): Promise<string> {
   if (error.name === 'ZodError') {
     //Handle Zod error
     const fieldErrors = error.issues.map((issue: $ZodIssue) => issue.message)
@@ -95,6 +95,10 @@ export const formatDateTime = (dateString: Date) => {
     dateOnly: formattedDate,
     timeOnly: formattedTime
   }
+}
+
+export function mockDelay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 // Form pagination length

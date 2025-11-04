@@ -3,36 +3,24 @@
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useActionState } from 'react'
-import { useFormStatus } from 'react-dom'
 
 import { Button } from '@/components/ui/button'
+import { Field, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 
 import { signUpUser } from '@/lib/actions/user.actions'
 import { signUpDefaultValues } from '@/lib/constants'
 
+import type { ActionResponse } from '@/types'
+
 const CredentialsSignUpForm = () => {
-  const [data, action] = useActionState(signUpUser, {
+  const [data, action, isPending] = useActionState<ActionResponse, FormData>(signUpUser, {
     success: false,
     message: ''
   })
 
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') || '/'
-
-  const SignUpButton = () => {
-    const { pending } = useFormStatus()
-    return (
-      <Button
-        disabled={pending}
-        className='w-full'
-        variant='default'
-      >
-        {pending ? 'Submitting...' : 'Sign Up'}
-      </Button>
-    )
-  }
 
   return (
     <form action={action}>
@@ -41,14 +29,9 @@ const CredentialsSignUpForm = () => {
         name='callbackUrl'
         value={callbackUrl}
       />
-      <div className='space-y-2'>
-        <div className='mt-5'>
-          <Label
-            htmlFor='password'
-            className='mb-2'
-          >
-            Name
-          </Label>
+      <div className='space-y-5'>
+        <Field>
+          <FieldLabel htmlFor='password'>Name</FieldLabel>
           <Input
             id='name'
             name='name'
@@ -56,14 +39,9 @@ const CredentialsSignUpForm = () => {
             autoComplete='name'
             defaultValue={signUpDefaultValues.name}
           />
-        </div>
-        <div>
-          <Label
-            htmlFor='email'
-            className='mb-2'
-          >
-            Email
-          </Label>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor='email'>Email</FieldLabel>
           <Input
             id='email'
             name='email'
@@ -71,14 +49,9 @@ const CredentialsSignUpForm = () => {
             autoComplete='email'
             defaultValue={signUpDefaultValues.email}
           />
-        </div>
-        <div className='mt-5'>
-          <Label
-            htmlFor='password'
-            className='mb-2'
-          >
-            Password
-          </Label>
+        </Field>
+        <Field className='mt-5'>
+          <FieldLabel htmlFor='password'>Password</FieldLabel>
           <Input
             id='password'
             name='password'
@@ -87,14 +60,9 @@ const CredentialsSignUpForm = () => {
             autoComplete='password'
             defaultValue={signUpDefaultValues.password}
           />
-        </div>
-        <div className='mt-5'>
-          <Label
-            htmlFor='confirmPassword'
-            className='mb-2'
-          >
-            Confirm Password
-          </Label>
+        </Field>
+        <Field className='mt-5'>
+          <FieldLabel htmlFor='confirmPassword'>Confirm Password</FieldLabel>
           <Input
             id='confirmPassword'
             name='confirmPassword'
@@ -103,9 +71,15 @@ const CredentialsSignUpForm = () => {
             autoComplete='confirmPassword'
             defaultValue={signUpDefaultValues.confirmPassword}
           />
-        </div>
+        </Field>
         <div className='mt-5 mb-5'>
-          <SignUpButton />
+          <Button
+            disabled={isPending}
+            className='w-full'
+            variant='default'
+          >
+            {isPending ? 'Submitting...' : 'Sign Up'}
+          </Button>
         </div>
         {data && !data.success && (
           <div className='text-center text-destructive'>{data.message}</div>
