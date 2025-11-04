@@ -25,6 +25,15 @@ export default async function OrdersPage(props: { searchParams: Promise<{ page: 
     page: Number(page) || 1
   })
 
+  if (orders.data.length === 0) {
+    return (
+      <div className='flex flex-col w-full min-h-screen items-center justify-center space-y-2'>
+        <h1 className='text-3xl font-bold text-gray-500'>Orders</h1>
+        <h3 className='text-2xl font-bold text-gray-600'>Sorry your orders history is empty :(</h3>
+      </div>
+    )
+  }
+
   return (
     <div className='space-y-2'>
       <h2 className='h2-bold'>Orders</h2>
