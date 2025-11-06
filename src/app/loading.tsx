@@ -1,7 +1,8 @@
 'use client'
 
-import { Progress } from '@radix-ui/react-progress'
 import { useEffect, useState } from 'react'
+
+import { Progress } from '@/components/ui/progress'
 
 function Loading() {
   const [progress, setProgress] = useState(0)

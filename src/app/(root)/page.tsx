@@ -1,23 +1,21 @@
-import ProductList from '@/components/shared/product/product';
-import { getLatestProducts } from '@/lib/actions/product.actions';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import Loading from '../loading';
+import { notFound } from 'next/navigation'
 
-async function Home() {
-  const latestProducts = await getLatestProducts();
+import ProductList from '@/components/shared/product/product'
+
+import { getLatestProducts } from '@/lib/actions/product.actions'
+
+const HomePage = async () => {
+  const latestProducts = await getLatestProducts()
 
   if (!latestProducts) {
-    notFound();
+    notFound()
   }
-  return <ProductList data={latestProducts} title='Product List' />;
-}
-const HomePage = async () => {
   return (
-    <Suspense fallback={<Loading />}>
-      <Home />
-    </Suspense>
-  );
-};
+    <ProductList
+      data={latestProducts}
+      title='Product List'
+    />
+  )
+}
 
-export default HomePage;
+export default HomePage

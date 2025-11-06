@@ -1,19 +1,21 @@
-import { getProductBySlug } from '@/lib/actions/product.actions';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import Loading from '@/app/loading';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import ProductImages from '@/components/shared/product/product-images';
-import AddToCart from '@/components/shared/product/add-to-cart';
-import { getMyCart } from '@/lib/actions/cart.action';
+import Loading from '@/app/loading'
+import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
+
+import AddToCart from '@/components/shared/product/add-to-cart'
+import ProductImages from '@/components/shared/product/product-images'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
+
+import { getMyCart } from '@/lib/actions/cart.action'
+import { getProductBySlug } from '@/lib/actions/product.actions'
 
 async function ProductContent({ slug }: { slug: string }) {
   // await new Promise((resolve) => setTimeout(resolve, 4000));
 
-  const product = await getProductBySlug(slug);
-  const cart = await getMyCart();
-  if (!product) notFound();
+  const product = await getProductBySlug(slug)
+  const cart = await getMyCart()
+  if (!product) notFound()
 
   return (
     <div>
@@ -70,7 +72,7 @@ async function ProductContent({ slug }: { slug: string }) {
                         slug: product.slug,
                         price: product.price,
                         qty: 1,
-                        image: product.images[0],
+                        image: product.images[0]
                       }}
                     />
                   </div>
@@ -81,19 +83,17 @@ async function ProductContent({ slug }: { slug: string }) {
         </div>
       </section>
     </div>
-  );
+  )
 }
 
-const ProductDetailsPage = async (props: {
-  params: Promise<{ slug: string }>;
-}) => {
-  const { slug } = await props.params;
+const ProductDetailsPage = async (props: { params: Promise<{ slug: string }> }) => {
+  const { slug } = await props.params
 
   return (
     <Suspense fallback={<Loading />}>
       <ProductContent slug={slug} />
     </Suspense>
-  );
-};
+  )
+}
 
-export default ProductDetailsPage;
+export default ProductDetailsPage

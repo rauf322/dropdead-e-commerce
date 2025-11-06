@@ -1,6 +1,5 @@
 'use client'
 
-import { type Order } from '@/types'
 import {
   PayPalButtons,
   PayPalScriptProvider,
@@ -23,6 +22,8 @@ import {
 
 import { approvePayPalOrder, createPayPalOrder } from '@/lib/actions/order.action'
 import { formatCurrency, formatDateTime, formatId } from '@/lib/utils'
+
+import { type Order } from '@/types'
 
 export default function OrderDetailsTable({
   order,
@@ -47,6 +48,7 @@ export default function OrderDetailsTable({
 
   const PrintLoadingState = () => {
     const [{ isPending, isRejected }] = usePayPalScriptReducer()
+
     let status = ''
     if (isPending) {
       status = 'Loading PayPal...'

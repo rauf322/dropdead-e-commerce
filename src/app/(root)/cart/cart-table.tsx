@@ -1,12 +1,10 @@
 'use client'
 
-import type { Cart, CartItem } from '@/types'
+import { useCart } from '@/hooks/cart-action'
 import { ArrowRight, Loader, Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useTransition } from 'react'
-import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -19,35 +17,13 @@ import {
   TableRow
 } from '@/components/ui/table'
 
-import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.action'
 import { formatCurrency } from '@/lib/utils'
+
+import type { Cart } from '@/types'
 
 export const CartTable = ({ cart }: { cart?: Cart }) => {
   const router = useRouter()
-  const [isPending, startTransition] = useTransition()
-
-  function removeItemFromCartHandler(productId: string) {
-    startTransition(async () => {
-      const res = await removeItemFromCart(productId)
-      if (!res.success) {
-        toast.error(res.message)
-
-        return
-      }
-      toast.success(res.message)
-    })
-  }
-  function addItemFromCartHandler(item: CartItem) {
-    startTransition(async () => {
-      const res = await addItemToCart(item)
-      if (!res.success) {
-        toast.error(res.message)
-
-        return
-      }
-      toast.success(res.message)
-    })
-  }
+  const { removeItem, addItem, isPending, startTransition } = useCart()
 
   return (
     <>
@@ -90,7 +66,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
                           disabled={isPending}
                           variant='outline'
                           type='button'
-                          onClick={() => removeItemFromCartHandler(item.productId)}
+                          onClick={() => removeItem(item.productId)}
                         >
                           {isPending ? (
                             <Loader className='w-4 h-4 animate-spin' />
@@ -103,7 +79,7 @@ export const CartTable = ({ cart }: { cart?: Cart }) => {
                           disabled={isPending}
                           variant='outline'
                           type='button'
-                          onClick={() => addItemFromCartHandler(item)}
+                          onClick={() => addItem(item)}
                         >
                           {isPending ? (
                             <Loader className='w-4 h-4 animate-spin' />

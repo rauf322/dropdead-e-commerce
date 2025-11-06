@@ -1,11 +1,8 @@
-import ProductCard from './product-card'
-import Loading from '@/app/loading'
 import type { Product } from '@/types'
 
-const ProductList = ({ data, title }: { data: Product[]; title?: string }) => {
-  if (data.length === 0) {
-    return <Loading />
-  }
+import ProductCard from './product-card'
+
+export default function ProductList({ data, title }: { data: Product[]; title?: string }) {
   return (
     <div className='my-10'>
       {title && <h1 className='font-bold text-5xl mb-10 text-center'>{title}</h1>}
@@ -20,5 +17,3 @@ const ProductList = ({ data, title }: { data: Product[]; title?: string }) => {
     </div>
   )
 }
-
-export default ProductList
