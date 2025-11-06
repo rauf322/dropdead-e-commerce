@@ -1,5 +1,6 @@
-import { type Data } from '../src/types/index'
 import { hashSync } from 'bcrypt-ts-edge'
+
+import { type Data } from '../src/types/index'
 
 export const sampleData: Data = {
   products: [
@@ -69,13 +70,15 @@ export const sampleData: Data = {
       name: 'John Doe',
       email: 'john@example.com',
       password: hashSync('123456', 10),
-      role: 'admin'
+      role: 'admin',
+      paymentMethod: 'PayPal'
     },
     {
       name: 'Jane Smith',
       email: 'jane@example.com',
       password: hashSync('123456', 10),
-      role: 'user'
+      role: 'user',
+      paymentMethod: 'PayPal'
     }
   ],
   orders: [

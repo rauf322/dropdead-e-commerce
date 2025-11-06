@@ -55,3 +55,15 @@ export type ActionResponse = {
   success: boolean
   message: string
 }
+
+export type CartItemsCheckout = {
+  createdAt: Date
+  id: string
+  userId: string | null
+  items: CartItem[]
+  sessionCartId: string
+  itemsPrice: string
+  taxPrice: string
+  shippingPrice: string
+  totalPrice: string
+}

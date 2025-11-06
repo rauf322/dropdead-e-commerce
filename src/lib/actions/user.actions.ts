@@ -5,9 +5,9 @@ import { hashSync } from 'bcrypt-ts-edge'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import z from 'zod'
 
-import { formatError, mockDelay } from '@/lib/utils'
+import { convertToPlainObject, formatError, mockDelay } from '@/lib/utils'
 
-import type { ActionResponse, ShippingAddress } from '@/types'
+import type { ActionResponse, ShippingAddress, User } from '@/types'
 
 import { prisma } from '@/db/prisma'
 
@@ -100,12 +100,12 @@ export async function signUpUser(
     return { success: false, message: await formatError(error) }
   }
 }
-export async function getUserById(userId: string) {
+export async function getUserById(userId: string): Promise<User> {
   const user = await prisma.user.findFirst({
     where: { id: userId }
   })
   if (!user) throw new Error(`User not Found`)
-  return user
+  return convertToPlainObject(user) as unknown as User
 }
 
 //Update user Address
@@ -131,7 +131,7 @@ export async function updateUserAddress(data: ShippingAddress) {
   } catch (error) {
     return {
       success: false,
-      message: formatError(error)
+      message: await formatError(error)
     }
   }
 }
@@ -158,7 +158,7 @@ export async function updateUserPaymentMethod(data: z.infer<typeof paymentMethod
   } catch (error) {
     return {
       success: false,
-      message: formatError(error)
+      message: await formatError(error)
     }
   }
 }
@@ -189,7 +189,7 @@ export async function updateProfile(user: { name: string; email: string }) {
   } catch (error) {
     return {
       success: false,
-      message: formatError(error)
+      message: await formatError(error)
     }
   }
 }

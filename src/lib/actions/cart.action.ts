@@ -5,7 +5,7 @@ import { Prisma } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 
-import type { CartItem } from '@/types'
+import type { CartItem, CartItemsCheckout } from '@/types'
 
 import { prisma } from '@/db/prisma'
 
@@ -72,7 +72,7 @@ export async function addItemToCart(data: CartItem) {
       }
     } else {
       //Check if item in cart
-      const findProduct = cart.items.find(i => i.productId == item.productId)
+      const findProduct = cart.items.find((i: CartItem) => i.productId == item.productId)
       if (findProduct) {
         if (product.stock < findProduct.qty + 1) {
           throw new Error('Not enough stock available')
@@ -105,7 +105,7 @@ export async function addItemToCart(data: CartItem) {
   }
 }
 
-export async function getMyCart() {
+export async function getMyCart(): Promise<CartItemsCheckout | undefined> {
   // Check for cart cookie
   const sessionCartId = (await cookies()).get('sessionCartId')?.value
   if (!sessionCartId) throw new Error('Cart session not found')
@@ -119,11 +119,7 @@ export async function getMyCart() {
   if (!cart) return undefined
   return convertToPlainObject({
     ...cart,
-    items: cart.items as CartItem[],
-    itemsPrice: cart.itemsPrice.toString(),
-    totalPrice: cart.totalPrice.toString(),
-    shippingPrice: cart.shippingPrice.toString(),
-    taxPrice: cart.taxPrice.toString()
+    items: cart.items as CartItem[]
   })
 }
 
@@ -142,11 +138,11 @@ export async function removeItemFromCart(productId: string) {
     const cart = await getMyCart()
 
     if (!cart) throw new Error('Cart not found')
-    const productInCart = cart.items.find(item => item.productId === productId)
+    const productInCart = cart.items.find((item: CartItem) => item.productId === productId)
     if (!productInCart) throw new Error('Item not found')
     productInCart.qty -= 1
     if (productInCart.qty <= 0) {
-      cart.items = cart.items.filter(item => item.productId != productInCart.productId)
+      cart.items = cart.items.filter((item: CartItem) => item.productId != productInCart.productId)
     }
     await prisma.cart.update({
       where: { id: cart.id },
