@@ -1,14 +1,10 @@
 'use client'
 
-import {
-  PayPalButtons,
-  PayPalScriptProvider,
-  usePayPalScriptReducer
-} from '@paypal/react-paypal-js'
+import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import Image from 'next/image'
 import Link from 'next/link'
-import { toast } from 'sonner'
 
+import { PayPalButtonsWrapper } from '@/components/shared/paypalButton'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -20,7 +16,6 @@ import {
   TableRow
 } from '@/components/ui/table'
 
-import { approvePayPalOrder, createPayPalOrder } from '@/lib/actions/order.action'
 import { formatCurrency, formatDateTime, formatId } from '@/lib/utils'
 
 import { type Order } from '@/types'
@@ -46,32 +41,6 @@ export default function OrderDetailsTable({
     deliveredAt
   } = order
 
-  const PrintLoadingState = () => {
-    const [{ isPending, isRejected }] = usePayPalScriptReducer()
-
-    let status = ''
-    if (isPending) {
-      status = 'Loading PayPal...'
-    } else if (isRejected) {
-      status = 'Error Loading PayPal'
-    }
-    return status
-  }
-  const handleApprovePayPalOrder = async () => {
-    const res = await createPayPalOrder(order.id)
-    if (!res.success) {
-      toast.error(res.message)
-    }
-    return res.data
-  }
-  const handleCreatePayPalOrder = async (data: { orderID: string }) => {
-    const res = await approvePayPalOrder(order.id, data)
-    if (res.success) {
-      toast.success(res.message)
-    } else if (!res.success) {
-      toast.error(res.message)
-    }
-  }
   return (
     <>
       <h1 className='py-4 text-2xl'>Order {formatId(order.id)}</h1>
@@ -167,11 +136,7 @@ export default function OrderDetailsTable({
               {!isPaid && paymentMethod === 'PayPal' && (
                 <div style={{ colorScheme: 'none' }}>
                   <PayPalScriptProvider options={{ clientId: paypalClientId }}>
-                    <PrintLoadingState />
-                    <PayPalButtons
-                      createOrder={handleApprovePayPalOrder}
-                      onApprove={handleCreatePayPalOrder}
-                    />
+                    <PayPalButtonsWrapper order={order} />
                   </PayPalScriptProvider>
                 </div>
               )}
