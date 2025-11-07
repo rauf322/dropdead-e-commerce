@@ -3,16 +3,18 @@ import { type Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
 import CheckoutSteps from '@/components/shared/checkout-steps'
+import ItemsList from '@/components/shared/items-list'
+import Summary from '@/components/shared/summary'
 
 import { getMyCart } from '@/lib/actions/cart.action'
 import { getUserById } from '@/lib/actions/user.actions'
+import { ORDER_CHECKOUT_KEYS, SUMMARY_TITLE } from '@/lib/constants'
 
 import { type CartItemsCheckout, type ShippingAddress } from '@/types'
 
 import AddressField from './addrress-field'
-import ItemsList from './items-list'
 import PaymentMethod from './payment-method'
-import Summary from './summary'
+import PlaceOrderForm from './place-order'
 
 export const metadata: Metadata = {
   title: 'Place Order'
@@ -36,9 +38,17 @@ export default async function PlaceOrderPage() {
         <div className='md:col-span-2 overflow-x-auto space-y-4'>
           <AddressField userAddress={user.address as ShippingAddress} />
           <PaymentMethod paymentMethod={user.paymentMethod} />
-          <ItemsList cart={cart} />
+          <ItemsList
+            cart={cart}
+            title='Order Items'
+          />
         </div>
-        <Summary cart={cart} />
+        <Summary
+          cart={cart}
+          orderKeys={ORDER_CHECKOUT_KEYS}
+          titles={SUMMARY_TITLE}
+          action={<PlaceOrderForm />}
+        />
       </div>
     </>
   )
