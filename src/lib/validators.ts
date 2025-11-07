@@ -9,6 +9,7 @@ const currency = z.string().refine(value => {
   const formatted = formatNumberWithDecimal(Number(value))
   return /^\d+(\.\d{2})?$/.test(formatted)
 }, 'Price must have two 2 decimals')
+
 export const insertProductSchema = z.object({
   name: z.string().min(3, 'Name suppose to be at least 3 characters'),
   slug: z.string().min(3, 'Slug suppose to be at least 3 characters'),
@@ -101,16 +102,10 @@ export const insertOrderSchema = z.object({
   status: z.enum(['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'] as const)
 })
 
-//Schema for insering order item
+// Alias for backwards compatibility
+export const insertItemSchema = insertOrderSchema
 
-export const insertOrderItemSchema = z.object({
-  productId: z.string(),
-  slug: z.string(),
-  image: z.string(),
-  name: z.string(),
-  price: currency,
-  qty: z.number()
-})
+//Schema for insering order item
 
 export const paymentResultSchema = z.object({
   id: z.string(),

@@ -2,7 +2,7 @@ import Loading from '@/app/loading'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 
-import AddToCart from '@/components/shared/product/add-to-cart'
+import AddToCart from '@/components/shared/cart/add-to-cart'
 import ProductImages from '@/components/shared/product/product-images'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'

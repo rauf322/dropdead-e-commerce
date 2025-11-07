@@ -1,6 +1,6 @@
 'use client'
 
-import { type ShippingAddress } from '@/types'
+import type { ShippingAddress } from '@/types/user.type'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowRight, Loader } from 'lucide-react'
 import { useRouter } from 'next/navigation'

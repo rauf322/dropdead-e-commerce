@@ -1,10 +1,9 @@
+import type { CartItem } from '@/types/cart.type'
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
 
 import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.action'
-
-import type { CartItem } from '@/types'
 
 export function useCart() {
   const [isPending, startTransition] = useTransition()

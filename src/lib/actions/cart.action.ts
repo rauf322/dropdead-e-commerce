@@ -1,11 +1,10 @@
 'use server'
 
 import { auth } from '@/../auth'
+import type { CartItem, CartItemsCheckout } from '@/types/cart.type'
 import { Prisma } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
-
-import type { CartItem, CartItemsCheckout } from '@/types'
 
 import { prisma } from '@/db/prisma'
 

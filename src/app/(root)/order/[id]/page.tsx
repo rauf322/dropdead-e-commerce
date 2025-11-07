@@ -1,10 +1,9 @@
+import { type ShippingAddress } from '@/types/user.type'
 import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { getOrderById } from '@/lib/actions/order.action'
 import { STATUS } from '@/lib/constants'
-
-import { type ShippingAddress } from '@/types'
 
 import OrderDetailsTable from './order-details-table'
 

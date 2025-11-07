@@ -1,16 +1,16 @@
 import { auth } from '@/../auth'
+import { type CartItemsCheckout } from '@/types/cart.type'
+import { type ShippingAddress } from '@/types/user.type'
 import { type Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
 import CheckoutSteps from '@/components/shared/checkout-steps'
 import ItemsList from '@/components/shared/items-list'
-import Summary from '@/components/shared/summary'
+import Summary from '@/components/shared/summary-list'
 
 import { getMyCart } from '@/lib/actions/cart.action'
 import { getUserById } from '@/lib/actions/user.actions'
 import { ORDER_CHECKOUT_KEYS, SUMMARY_TITLE } from '@/lib/constants'
-
-import { type CartItemsCheckout, type ShippingAddress } from '@/types'
 
 import AddressField from './addrress-field'
 import PaymentMethod from './payment-method'

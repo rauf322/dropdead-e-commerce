@@ -1,9 +1,8 @@
+import type { User } from '@/types/user.type'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-
-import type { User } from '@/types'
 
 export default function PaymentMethod({ paymentMethod }: { paymentMethod: User['paymentMethod'] }) {
   return (

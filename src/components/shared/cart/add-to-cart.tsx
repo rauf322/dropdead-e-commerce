@@ -1,11 +1,10 @@
 'use client'
 
-import { useCart } from '@/hooks/cart-action'
+import type { Cart, CartItem } from '@/types/cart.type'
 import { Loader, Minus, Plus } from 'lucide-react'
 
+import { useCart } from '@/components/shared/cart/hooks/cart-action'
 import { Button } from '@/components/ui/button'
-
-import type { Cart, CartItem } from '@/types'
 
 const AddToCart = ({ item, cart }: { item: CartItem; cart?: Cart }) => {
   const { addItem, removeItem, isPending } = useCart()

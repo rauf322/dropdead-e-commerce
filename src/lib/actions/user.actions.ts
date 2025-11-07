@@ -1,13 +1,14 @@
 'use server'
 
 import { auth, signIn, signOut } from '@/../auth'
+import type { ShippingAddress, User } from '@/types/user.type'
 import { hashSync } from 'bcrypt-ts-edge'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import z from 'zod'
 
 import { convertToPlainObject, formatError, mockDelay } from '@/lib/utils'
 
-import type { ActionResponse, ShippingAddress, User } from '@/types'
+import type { ActionResponse } from '@/types'
 
 import { prisma } from '@/db/prisma'
 

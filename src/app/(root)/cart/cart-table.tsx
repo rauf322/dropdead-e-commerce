@@ -1,15 +1,14 @@
 'use client'
 
+import type { Cart } from '@/types/cart.type'
 import { ArrowRight, Loader } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 
 import ItemsList from '@/components/shared/items-list'
-import Summary from '@/components/shared/summary'
+import Summary from '@/components/shared/summary-list'
 import { Button } from '@/components/ui/button'
-
-import type { Cart } from '@/types'
 
 export const CartTable = ({ cart }: { cart?: Cart }) => {
   const router = useRouter()

@@ -1,6 +1,6 @@
 'use server'
 
-import type { Product } from '@/types'
+import type { Product } from '@/types/product.type'
 
 import { prisma } from '@/db/prisma'
 

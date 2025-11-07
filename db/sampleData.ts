@@ -1,6 +1,13 @@
+import type { SeedOrder } from '@/types/order.type'
+import type { SeedProduct } from '@/types/product.type'
+import type { SeedUser } from '@/types/user.type'
 import { hashSync } from 'bcrypt-ts-edge'
 
-import { type Data } from '../src/types/index'
+export type Data = {
+  products: SeedProduct[]
+  users: SeedUser[]
+  orders: SeedOrder[]
+}
 
 export const sampleData: Data = {
   products: [

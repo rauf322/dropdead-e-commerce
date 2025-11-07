@@ -1,5 +1,6 @@
 'use client'
 
+import type { Product } from '@/types/product.type'
 import { Heart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -7,9 +8,7 @@ import { useState } from 'react'
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 
-import type { Product as ProductType } from '@/types/index'
-
-const ProductCard = ({ product }: { product: ProductType }) => {
+const ProductCard = ({ product }: { product: Product }) => {
   const [isHovered, setIsHovered] = useState(false)
 
   return (

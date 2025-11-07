@@ -1,7 +1,6 @@
 'use client'
 
-import { useCart } from '@/hooks/cart-action'
-import { Loader, Minus, Plus } from 'lucide-react'
+import type { CartItemsCheckout } from '@/types/cart.type'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -16,19 +15,10 @@ import {
 
 import { formatCurrency } from '@/lib/utils'
 
-import type { CartItemsCheckout } from '@/types'
-
-import { Button } from '../ui/button'
 import { Card } from '../ui/card'
+import AddToCart from './cart/add-to-cart'
 
-export default function ItemsList({
-  cart,
-  title
-}: {
-  cart: Partial<CartItemsCheckout>
-  title?: string
-}) {
-  const { removeItem, addItem, isItemLoading } = useCart()
+export default function ItemsList({ cart, title }: { cart: CartItemsCheckout; title?: string }) {
   return (
     <Card className='p-5'>
       {title && <h2 className='text-xl pb-4'>Order Items</h2>}
@@ -42,7 +32,6 @@ export default function ItemsList({
         </TableHeader>
         <TableBody>
           {cart.items?.map(item => {
-            const isLoading = isItemLoading(item.productId)
             return (
               <TableRow key={item.slug}>
                 <TableCell>
@@ -60,33 +49,10 @@ export default function ItemsList({
                   </Link>
                 </TableCell>
                 <TableCell className='text-center'>
-                  <div className='flex items-center justify-center gap-2'>
-                    <Button
-                      disabled={isLoading}
-                      variant='outline'
-                      type='button'
-                      onClick={() => removeItem(item.productId)}
-                    >
-                      {isLoading ? (
-                        <Loader className='w-4 h-4 animate-spin' />
-                      ) : (
-                        <Minus className='h-4 w-4' />
-                      )}
-                    </Button>
-                    <span>{item.qty}</span>
-                    <Button
-                      disabled={isLoading}
-                      variant='outline'
-                      type='button'
-                      onClick={() => addItem(item)}
-                    >
-                      {isLoading ? (
-                        <Loader className='w-4 h-4 animate-spin' />
-                      ) : (
-                        <Plus className='h-4 w-4' />
-                      )}
-                    </Button>
-                  </div>
+                  <AddToCart
+                    item={item}
+                    cart={cart}
+                  />
                 </TableCell>
                 <TableCell className='text-right'>
                   ${formatCurrency(Number(item.price) * Number(item.qty))}

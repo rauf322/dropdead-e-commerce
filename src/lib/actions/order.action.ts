@@ -1,10 +1,12 @@
 'use server'
 
 import { auth } from '@/../auth'
+import type { CartItem } from '@/types/cart.type'
+import type { Order } from '@/types/order.type'
 import { revalidatePath } from 'next/cache'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 
-import type { CartItem, Order, PaymentResult } from '@/types'
+import type { PaymentResult } from '@/types'
 
 import { prisma } from '@/db/prisma'
 

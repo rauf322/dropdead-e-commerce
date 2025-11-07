@@ -1,10 +1,11 @@
 'use client'
 
+import { type Order } from '@/types/order.type'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { PayPalButtonsWrapper } from '@/components/shared/paypalButton'
+import { PayPalButtonsWrapper } from '@/components/shared/paypal-modal/paypalButton'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -17,8 +18,6 @@ import {
 } from '@/components/ui/table'
 
 import { formatCurrency, formatDateTime, formatId } from '@/lib/utils'
-
-import { type Order } from '@/types'
 
 export default function OrderDetailsTable({
   order,

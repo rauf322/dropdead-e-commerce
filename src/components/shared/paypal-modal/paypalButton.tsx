@@ -1,9 +1,9 @@
 'use client'
 
-import usePaypal from '@/hooks/paypal-action'
+import type { Order } from '@/types/order.type'
 import type { OnApproveData } from '@paypal/paypal-js'
 
-import type { Order } from '@/types'
+import usePaypal from '@/components/shared/paypal-modal/hooks/paypal-action'
 
 export function PayPalButtonsWrapper({ order }: { order: Order }) {
   const { isPending, isRejected, PayPalButtons, createOrder, approveOrder } = usePaypal()

@@ -1,6 +1,5 @@
-import ShippingAddressForm from './shipping-address-form'
 import { auth } from '@/../auth'
-import { type ShippingAddress } from '@/types'
+import type { ShippingAddress } from '@/types/user.type'
 import { type Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
@@ -8,6 +7,8 @@ import CheckoutSteps from '@/components/shared/checkout-steps'
 
 import { getMyCart } from '@/lib/actions/cart.action'
 import { getUserById } from '@/lib/actions/user.actions'
+
+import ShippingAddressForm from './shipping-address-form'
 
 export const metadata: Metadata = {
   title: 'Shipping Address'

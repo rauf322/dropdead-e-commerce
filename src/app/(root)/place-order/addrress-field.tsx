@@ -1,9 +1,8 @@
+import type { ShippingAddress } from '@/types/user.type'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-
-import type { ShippingAddress } from '@/types'
 
 export default function AddressField({ userAddress }: { userAddress: ShippingAddress }) {
   return (

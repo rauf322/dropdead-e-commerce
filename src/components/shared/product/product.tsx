@@ -1,4 +1,4 @@
-import type { Product } from '@/types'
+import type { Product } from '@/types/product.type'
 
 import ProductCard from './product-card'
 
