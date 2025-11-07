@@ -40,4 +40,4 @@ export const ORDER_CHECKOUT_KEYS = [
   'taxPrice',
   'shippingPrice',
   'totalPrice'
-] as const satisfies readonly (keyof CartItemsCheckout)[]
+] as const
