@@ -2,10 +2,7 @@ import { Card, CardContent } from '@/components/ui/card'
 
 import { formatCurrency } from '@/lib/utils'
 
-import type { OnlyStringObject } from '@/types'
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function Summary<G extends Record<string, any>>({
+export default function Summary<T>({
   cart,
   orderKeys,
   titles,
@@ -15,8 +12,8 @@ export default function Summary<G extends Record<string, any>>({
 }: {
   title?: string
   amount?: string
-  cart: Partial<G>
-  orderKeys?: readonly OnlyStringObject<G>[]
+  cart: Partial<T>
+  orderKeys?: Readonly<Array<keyof T>> // readonly (keyof T)[]
   titles?: string[]
   action?: React.ReactNode
 }) {
@@ -34,7 +31,7 @@ export default function Summary<G extends Record<string, any>>({
           )}
           {orderKeys &&
             titles &&
-            orderKeys.map((key: OnlyStringObject<G>, index) => (
+            orderKeys.map((key, index) => (
               <div
                 className='flex justify-between'
                 key={titles[index]}
