@@ -3,7 +3,7 @@
 import type { Cart, CartItem } from '@/types/cart.type'
 import { Loader, Minus, Plus } from 'lucide-react'
 
-import { useCart } from '@/components/shared/cart/hooks/cart-action'
+import { useCart } from '@/components/shared/cart/hooks/cart-hooks'
 import { Button } from '@/components/ui/button'
 
 const AddToCart = ({ item, cart }: { item: CartItem; cart?: Cart }) => {

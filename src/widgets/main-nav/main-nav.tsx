@@ -6,18 +6,9 @@ import React from 'react'
 
 import { cn } from '@/lib/utils'
 
-const links = [
-  {
-    title: 'Profile',
-    href: '/user/profile'
-  },
-  {
-    title: 'Orders',
-    href: '/user/orders'
-  }
-]
+import type { MainNavProp } from './types'
 
-export default function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
+export default function MainNav({ className, links, ...props }: MainNavProp) {
   const pathname = usePathname()
   return (
     <nav

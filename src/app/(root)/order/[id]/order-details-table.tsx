@@ -4,9 +4,12 @@ import { type Order } from '@/types/order.type'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useTransition } from 'react'
+import { toast } from 'sonner'
 
 import { PayPalButtonsWrapper } from '@/components/shared/paypal-modal/paypalButton'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import {
   Table,
@@ -17,14 +20,17 @@ import {
   TableRow
 } from '@/components/ui/table'
 
+import { deliverOrder, updateOrderToPaidCOD } from '@/lib/actions/order.action'
 import { formatCurrency, formatDateTime, formatId } from '@/lib/utils'
 
 export default function OrderDetailsTable({
   order,
-  paypalClientId
+  paypalClientId,
+  isAdmin
 }: {
   order: Order
   paypalClientId: string
+  isAdmin: boolean
 }) {
   const {
     shippingAddress,
@@ -40,6 +46,39 @@ export default function OrderDetailsTable({
     deliveredAt
   } = order
 
+  function MarkAsPaidButton() {
+    const [isPending, startTransition] = useTransition()
+    return (
+      <Button
+        type='button'
+        disabled={isPending}
+        onClick={() =>
+          startTransition(async () => {
+            const res = await updateOrderToPaidCOD(order.id)
+          })
+        }
+      >
+        {isPending ? 'Processing...' : 'Mark As Paid'}
+      </Button>
+    )
+  }
+
+  function MarkAsDeliveredButton() {
+    const [isPending, startTransition] = useTransition()
+    return (
+      <Button
+        type='button'
+        disabled={isPending}
+        onClick={() =>
+          startTransition(async () => {
+            const res = await deliverOrder(order.id)
+          })
+        }
+      >
+        {isPending ? 'Processing...' : 'Mark As Delivered'}
+      </Button>
+    )
+  }
   return (
     <>
       <h1 className='py-4 text-2xl'>Order {formatId(order.id)}</h1>
@@ -65,7 +104,9 @@ export default function OrderDetailsTable({
                 {shippingAddress.postalCode}, {shippingAddress.country}
               </p>
               {isDelivered ? (
-                <Badge variant='secondary'>Paid at {formatDateTime(deliveredAt!).dateTime}</Badge>
+                <Badge variant='secondary'>
+                  Delivered at {formatDateTime(deliveredAt!).dateTime}
+                </Badge>
               ) : (
                 <Badge variant='destructive'>Not Delivered</Badge>
               )}
@@ -139,6 +180,9 @@ export default function OrderDetailsTable({
                   </PayPalScriptProvider>
                 </div>
               )}
+              {/*Cash on Delivery*/}
+              {isAdmin && !isPaid && paymentMethod === 'CashOnDelivery' && <MarkAsPaidButton />}
+              {isAdmin && !isDelivered && <MarkAsDeliveredButton />}
             </CardContent>
           </Card>
         </div>

@@ -22,7 +22,7 @@ export function formatNumberWithDecimal(num: number): string {
 //Format errors
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function formatError(error: any): Promise<string> {
+export function formatError(error: any): string {
   if (error.name === 'ZodError') {
     //Handle Zod error
     const fieldErrors = error.issues.map((issue: $ZodIssue) => issue.message)

@@ -1,12 +1,20 @@
-import { auth } from '@/../auth';
-import { Button } from '@/components/ui/button';
-import { UserIcon } from 'lucide-react';
-import Link from 'next/link';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import SignOutItem from './sing-out-item';
+import { auth } from '@/../auth'
+import { UserIcon } from 'lucide-react'
+import Link from 'next/link'
+
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+
+import SignOutItem from './sing-out-item'
 
 const UserButton = async () => {
-  const session = await auth();
+  const session = await auth()
   if (!session) {
     return (
       <Button asChild>
@@ -14,10 +22,10 @@ const UserButton = async () => {
           <UserIcon className='ml-2' /> Sign In
         </Link>
       </Button>
-    );
+    )
   }
 
-  const firstInitial = session.user?.name?.charAt(0).toUpperCase() ?? '';
+  const firstInitial = session.user?.name?.charAt(0).toUpperCase() ?? ''
   return (
     <div className='flex gap-2 items-center'>
       <DropdownMenu>
@@ -31,7 +39,11 @@ const UserButton = async () => {
             </Button>
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className='w-56 ' align='end' forceMount>
+        <DropdownMenuContent
+          className='w-56 '
+          align='end'
+          forceMount
+        >
           <DropdownMenuLabel className='font-normal'>
             <div className='flex flex-col space-y-1'>
               <div className='flex-sm font-bold leading-none'>{session.user?.name}</div>
@@ -39,12 +51,28 @@ const UserButton = async () => {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuItem>
-            <Link href='/user/orders' className='w-full'>
+            <Link
+              href='/user/orders'
+              className='w-full'
+            >
               Order History
             </Link>
           </DropdownMenuItem>
+          {session?.user?.role === 'admin' && (
+            <DropdownMenuItem>
+              <Link
+                href='/admin/overview'
+                className='w-full'
+              >
+                Admin Dashboard
+              </Link>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem>
-            <Link href='/user/profile' className='w-full'>
+            <Link
+              href='/user/profile'
+              className='w-full'
+            >
               User Profile
             </Link>
           </DropdownMenuItem>
@@ -52,7 +80,7 @@ const UserButton = async () => {
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  );
-};
+  )
+}
 
-export default UserButton;
+export default UserButton

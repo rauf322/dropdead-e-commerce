@@ -1,3 +1,4 @@
+import { auth } from '@/../auth'
 import { type ShippingAddress } from '@/types/user.type'
 import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -15,6 +16,7 @@ export default async function OrderDetailsPage(props: { params: Promise<{ id: st
   const { id } = await props.params
 
   const order = await getOrderById(id)
+  const session = await auth()
 
   if (
     !order ||
@@ -27,6 +29,7 @@ export default async function OrderDetailsPage(props: { params: Promise<{ id: st
 
   return (
     <OrderDetailsTable
+      isAdmin={session?.user?.role === 'admin' ? true : false}
       order={{
         ...order,
         shippingAddress: order.shippingAddress as ShippingAddress
