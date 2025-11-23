@@ -181,8 +181,10 @@ export default function OrderDetailsTable({
                 </div>
               )}
               {/*Cash on Delivery*/}
-              {isAdmin && !isPaid && paymentMethod === 'CashOnDelivery' && <MarkAsPaidButton />}
-              {isAdmin && !isDelivered && <MarkAsDeliveredButton />}
+              <div className='flex flex-col gap-2'>
+                {isAdmin && !isPaid && paymentMethod === 'CashOnDelivery' && <MarkAsPaidButton />}
+                {isAdmin && !isDelivered && <MarkAsDeliveredButton />}
+              </div>
             </CardContent>
           </Card>
         </div>
