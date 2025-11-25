@@ -25,6 +25,13 @@ export async function getProductBySlug(slug: string) {
   })
 }
 
+export async function getProductById(productId: string) {
+  const data = await prisma.product.findFirst({
+    where: { id: productId }
+  })
+  return convertToPlainObject(data)
+}
+
 export async function getAllProducts({
   query,
   limit = PAGE_SIZE,
@@ -88,7 +95,7 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
     const productExists = await prisma.product.findFirst({
       where: { id: product.id }
     })
-    if (productExists) throw new Error('Product not found')
+    if (!productExists) throw new Error('Product not found')
 
     await prisma.product.update({
       where: { id: product.id },
