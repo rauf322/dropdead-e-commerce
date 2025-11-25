@@ -48,7 +48,7 @@ export const userAuthSchema = z.object({
   image: z.string().optional(),
   password: z.string().optional(),
   address: shippingAddressSchema.optional(),
-  role: z.enum(['user', 'admin']).default('user'),
+  role: z.enum(['user', 'admin'] as const).default('user'),
   paymentMethod: z
     .enum(['PayPal', 'Stripe', 'CashOnDelivery'], 'Sorry, this payment method is not supported')
     .default('PayPal'),
@@ -124,4 +124,11 @@ export const paymentResultSchema = z.object({
 export const updateUserProfile = z.object({
   name: z.string().min(3, 'Name must be at least three'),
   email: z.string().min(3, 'Email must be at least three')
+})
+
+export const updateUserSchema = z.object({
+  id: z.string().min(1, 'ID is required'),
+  name: z.string().min(3, 'Name must be at least three').optional(),
+  email: z.string().email('Invalid email address').optional(),
+  role: z.enum(['user', 'admin'] as const)
 })

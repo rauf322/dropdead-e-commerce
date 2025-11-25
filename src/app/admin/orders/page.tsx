@@ -21,23 +21,42 @@ export const metadata: Metadata = {
   title: 'Admin Orders'
 }
 
-export default async function AdminOrdersPage(props: { searchParams: Promise<{ page: string }> }) {
-  const { page = '1' } = await props.searchParams
+export default async function AdminOrdersPage(props: {
+  searchParams: Promise<{ page: string; query: string }>
+}) {
+  const { page = '1', query: searchText } = await props.searchParams
   const session = await auth()
   if (session?.user?.role !== 'admin') throw new Error('Not authorized')
   const orders = await getAllOrders({
     page: Number(page),
-    limit: 5
+    limit: 5,
+    query: searchText || 'all'
   })
   return (
     <div className='space-y-2'>
-      <h2 className='h2-bold'>Orders</h2>
+      <div className='div flex items-center gap-3'>
+        <h1 className='h2-bold'>Orders</h1>
+        {searchText && (
+          <div>
+            Filtered by <i> &quot;{searchText}&quot;</i>
+            <Link href='/admin/orders'>
+              <Button
+                variant='outline'
+                size='sm'
+              >
+                Remove Filter
+              </Button>
+            </Link>
+          </div>
+        )}
+      </div>
       <div className='div overflow-x-auto'>
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>ID</TableHead>
               <TableHead>DATE</TableHead>
+              <TableHead>Customer</TableHead>
               <TableHead>TOTAL</TableHead>
               <TableHead>PAID</TableHead>
               <TableHead>DELIVERED</TableHead>
@@ -49,6 +68,7 @@ export default async function AdminOrdersPage(props: { searchParams: Promise<{ p
               <TableRow key={order.id}>
                 <TableCell>{formatId(order.id)}</TableCell>
                 <TableCell>{formatDateTime(order.createdAt).dateTime}</TableCell>
+                <TableCell>{order.user?.name || 'Deleted User'}</TableCell>
                 <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
                 <TableCell>
                   {order.isPaid && order.paidAt
@@ -73,10 +93,10 @@ export default async function AdminOrdersPage(props: { searchParams: Promise<{ p
             ))}
           </TableBody>
         </Table>
-        {orders.totalPage > 1 && (
+        {orders.totalPages > 1 && (
           <Pagination
             page={Number(page) || 1}
-            totalPages={orders?.totalPage}
+            totalPages={orders?.totalPages}
           />
         )}
       </div>

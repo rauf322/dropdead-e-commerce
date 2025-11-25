@@ -2,7 +2,9 @@
 
 import { auth, signIn, signOut } from '@/../auth'
 import type { ShippingAddress, User } from '@/types/user.type'
+import type { Prisma } from '@prisma/client'
 import { hashSync } from 'bcrypt-ts-edge'
+import { revalidatePath } from 'next/cache'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import z from 'zod'
 
@@ -12,15 +14,17 @@ import type { ActionResponse } from '@/types'
 
 import { prisma } from '@/db/prisma'
 
+import { PAGE_SIZE } from '../constants'
 import {
   paymentMethodSchema,
   shippingAddressSchema,
   signInFormShema,
-  signUpFormShema
+  signUpFormShema,
+  updateUserSchema
 } from '../validators'
 
 export async function signInWithCredentials(
-  prevState: ActionResponse,
+  _: ActionResponse,
   formData: FormData
 ): Promise<ActionResponse> {
   try {
@@ -56,10 +60,7 @@ export async function signOutUser() {
   console.log('signOut completed')
 }
 
-export async function signUpUser(
-  prevState: ActionResponse,
-  formData: FormData
-): Promise<ActionResponse> {
+export async function signUpUser(_: ActionResponse, formData: FormData): Promise<ActionResponse> {
   try {
     const user = signUpFormShema.safeParse({
       name: formData.get('name'),
@@ -98,7 +99,7 @@ export async function signUpUser(
       throw error
     }
 
-    return { success: false, message: await formatError(error) }
+    return { success: false, message: formatError(error) }
   }
 }
 export async function getUserById(userId: string): Promise<User> {
@@ -132,7 +133,7 @@ export async function updateUserAddress(data: ShippingAddress) {
   } catch (error) {
     return {
       success: false,
-      message: await formatError(error)
+      message: formatError(error)
     }
   }
 }
@@ -159,7 +160,7 @@ export async function updateUserPaymentMethod(data: z.infer<typeof paymentMethod
   } catch (error) {
     return {
       success: false,
-      message: await formatError(error)
+      message: formatError(error)
     }
   }
 }
@@ -190,7 +191,77 @@ export async function updateProfile(user: { name: string; email: string }) {
   } catch (error) {
     return {
       success: false,
-      message: await formatError(error)
+      message: formatError(error)
     }
+  }
+}
+
+export async function getAllUsers({
+  limit = PAGE_SIZE,
+  page,
+  query
+}: {
+  limit?: number
+  page: number
+  query: string
+}) {
+  const queryFilter: Prisma.UserWhereInput =
+    query && query !== 'all'
+      ? {
+          name: {
+            contains: query,
+            mode: 'insensitive'
+          } as Prisma.StringFilter
+        }
+      : {}
+
+  const data = await prisma.user.findMany({
+    where: {
+      ...queryFilter
+    },
+    orderBy: { createdAt: 'desc' },
+    take: limit,
+    skip: (page - 1) * limit
+  })
+
+  const dataCount = await prisma.user.count()
+  return {
+    data,
+    totalPages: Math.ceil(dataCount / limit)
+  }
+}
+
+export async function deleteCustomerById(id: string) {
+  try {
+    await prisma.user.delete({ where: { id } })
+    revalidatePath('/admin/customers')
+    return {
+      success: true,
+      message: 'User deleted successfully'
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error)
+    }
+  }
+}
+
+export async function updateCustomer(user: z.infer<typeof updateUserSchema>) {
+  try {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        name: user.name,
+        role: user.role
+      }
+    })
+    revalidatePath('/admin/customers')
+    return {
+      success: true,
+      message: 'User updated successfully'
+    }
+  } catch (error) {
+    return { success: false, message: formatError(error) }
   }
 }

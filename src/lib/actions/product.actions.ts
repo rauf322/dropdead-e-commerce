@@ -1,6 +1,7 @@
 'use server'
 
 import type { Product } from '@/types/product.type'
+import type { Prisma } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { success, z } from 'zod'
 
@@ -43,10 +44,23 @@ export async function getAllProducts({
   page: number
   category?: string
 }) {
+  const queryFilter: Prisma.ProductWhereInput =
+    query && query !== 'all'
+      ? {
+          name: {
+            contains: query,
+            mode: 'insensitive'
+          } as Prisma.StringFilter
+        }
+      : {}
+
   const data = await prisma.product.findMany({
+    where: {
+      ...queryFilter
+    },
     orderBy: { createdAt: 'desc' },
-    skip: (page - 1) * limit,
-    take: limit
+    take: limit,
+    skip: (page - 1) * limit
   })
 
   const dataCount = await prisma.product.count()
