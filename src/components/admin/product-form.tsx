@@ -14,6 +14,7 @@ import { insertProductSchema } from '@/lib/validators'
 
 import { Button } from '../ui/button'
 import { Card, CardContent } from '../ui/card'
+import { Checkbox } from '../ui/checkbox'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
@@ -60,6 +61,8 @@ export default function ProductForm({
   }
 
   const images = form.watch('images')
+  const isFeatured = form.watch('isFeatured')
+  const banner = form.watch('banner')
 
   return (
     <Form {...form}>
@@ -244,7 +247,48 @@ export default function ProductForm({
             )}
           />
         </div>
-        <div className='upload-field'></div>
+        <div className='upload-field'>
+          Fearued Product
+          <Card>
+            <CardContent className='space-y-2 mt-2'>
+              <FormField
+                control={form.control}
+                name='isFeatured'
+                render={({ field }) => (
+                  <FormItem className='space-x-2 items-center'>
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>Is Featured?</FormLabel>
+                  </FormItem>
+                )}
+              />
+              {isFeatured && banner && (
+                <Image
+                  src={banner}
+                  alt='banner image'
+                  className='w-full object-cover object-center rounded-sm'
+                  width={1920}
+                  height={680}
+                />
+              )}
+              {isFeatured && !banner && (
+                <UploadButton
+                  endpoint='imageUploader'
+                  onClientUploadComplete={(res: { url: string }[]) => {
+                    form.setValue('banner', res[0].url)
+                  }}
+                  onUploadError={(error: Error) => {
+                    toast.error(`Failed to upload banner: ${error.message}`)
+                  }}
+                />
+              )}
+            </CardContent>
+          </Card>
+        </div>
         <div>
           <FormField
             control={form.control}
@@ -268,7 +312,6 @@ export default function ProductForm({
             )}
           />
         </div>
-        <div></div>
         <Button
           type='submit'
           size='lg'
