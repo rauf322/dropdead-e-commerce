@@ -71,7 +71,7 @@ export default function ProfileForm() {
           ></FormField>
           <FormField
             control={form.control}
-            name='category'
+            name='name'
             render={({ field }) => (
               <FormItem className='w-full'>
                 <FormControl>

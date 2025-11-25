@@ -3,7 +3,7 @@
 import type { Product } from '@/types/product.type'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { type ControllerRenderProps, type SubmitHandler } from 'react-hook-form'
+import { type ControllerRenderProps } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -88,7 +88,7 @@ export default function ProductForm({
                     {...field}
                   />
                 </FormControl>
-                <div className='h-[36px] mt-2' />
+                <div className='h-9 mt-2' />
                 <FormMessage />
               </FormItem>
             )}
