@@ -55,6 +55,11 @@ export default function OrderDetailsTable({
         onClick={() =>
           startTransition(async () => {
             const res = await updateOrderToPaidCOD(order.id)
+            if (res.success) {
+              toast.success('Order marked as paid')
+            } else {
+              toast.error(res.message || 'Failed to mark order as paid')
+            }
           })
         }
       >
@@ -72,6 +77,11 @@ export default function OrderDetailsTable({
         onClick={() =>
           startTransition(async () => {
             const res = await deliverOrder(order.id)
+            if (res.success) {
+              toast.success('Order marked as delivered')
+            } else {
+              toast.error(res.message || 'Failed to mark order as delivered')
+            }
           })
         }
       >

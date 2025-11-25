@@ -6,7 +6,6 @@ import type { Order } from '@/types/order.type'
 import type { Prisma } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
-import { success } from 'zod'
 
 import type { PaymentResult } from '@/types'
 

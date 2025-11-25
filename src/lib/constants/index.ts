@@ -1,5 +1,3 @@
-import type { CartItemsCheckout } from '@/types/cart.type'
-
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'AI Store'
 export const APP_DESCRIPTION =
   process.env.NEXT_PUBLIC_APP_DESCRIPTION || 'A modern built-in AI store'

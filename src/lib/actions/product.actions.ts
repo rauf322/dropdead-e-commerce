@@ -3,7 +3,7 @@
 import type { Product } from '@/types/product.type'
 import type { Prisma } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
-import { success, z } from 'zod'
+import { z } from 'zod'
 
 import { prisma } from '@/db/prisma'
 
