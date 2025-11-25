@@ -1,50 +1,47 @@
-'use client';
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { updateProfile } from '@/lib/actions/user.actions';
-import { updateUserProfile } from '@/lib/validators';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import z from 'zod';
+'use client'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import z from 'zod'
+
+import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+
+import { updateProfile } from '@/lib/actions/user.actions'
+import { updateUserProfile } from '@/lib/validators'
 
 export default function ProfileForm() {
-  const { data: session, update } = useSession();
-  const router = useRouter();
+  const { data: session, update } = useSession()
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof updateUserProfile>>({
     resolver: zodResolver(updateUserProfile),
     defaultValues: {
       name: session?.user?.name ?? '',
-      email: session?.user?.email ?? '',
-    },
-  });
+      email: session?.user?.email ?? ''
+    }
+  })
 
   async function onSubmit(values: z.infer<typeof updateUserProfile>) {
-    const res = await updateProfile(values);
+    const res = await updateProfile(values)
     if (!res.success) {
-      return toast.error(res.message);
+      return toast.error(res.message)
     }
     const newSession = {
       ...session,
       user: {
         ...session?.user,
-        name: values.name,
-      },
-    };
-    await update(newSession);
-    router.refresh();
+        name: values.name
+      }
+    }
+    await update(newSession)
+    router.refresh()
 
-    toast.success('Profile updated successfully');
+    toast.success('Profile updated successfully')
   }
 
   return (
@@ -74,7 +71,7 @@ export default function ProfileForm() {
           ></FormField>
           <FormField
             control={form.control}
-            name='name'
+            name='category'
             render={({ field }) => (
               <FormItem className='w-full'>
                 <FormControl>
@@ -98,5 +95,5 @@ export default function ProfileForm() {
         </div>
       </form>
     </Form>
-  );
+  )
 }

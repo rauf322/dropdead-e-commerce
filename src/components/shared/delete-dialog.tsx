@@ -1,6 +1,5 @@
 'use client'
 
-import { AlertDialogContent } from '@radix-ui/react-alert-dialog'
 import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
 
@@ -9,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import {
   AlertDialog,
   AlertDialogCancel,
+  AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
@@ -16,7 +16,7 @@ import {
   AlertDialogTrigger
 } from '../ui/alert-dialog'
 
-export default function DeleteDialogue({
+export default function DeleteDialog({
   id,
   action
 }: {

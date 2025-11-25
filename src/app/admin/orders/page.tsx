@@ -2,7 +2,7 @@ import { auth } from '@/../auth'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-import DeleteDialogue from '@/components/shared/delete-dialog'
+import DeleteDialog from '@/components/shared/delete-dialog'
 import Pagination from '@/components/shared/pagination'
 import { Button } from '@/components/ui/button'
 import {
@@ -41,7 +41,7 @@ export default async function AdminOrdersPage(props: { searchParams: Promise<{ p
               <TableHead>TOTAL</TableHead>
               <TableHead>PAID</TableHead>
               <TableHead>DELIVERED</TableHead>
-              <TableHead>ACTIONS</TableHead>
+              <TableHead className='text-right'>ACTIONS</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -60,11 +60,11 @@ export default async function AdminOrdersPage(props: { searchParams: Promise<{ p
                     ? formatDateTime(order.paidAt).dateTime
                     : 'Not Delivered'}
                 </TableCell>
-                <TableCell>
+                <TableCell className='text-right'>
                   <Button>
                     <Link href={`/order/${order.id}`}>Details</Link>
                   </Button>
-                  <DeleteDialogue
+                  <DeleteDialog
                     id={order.id}
                     action={deleteOrderById}
                   />

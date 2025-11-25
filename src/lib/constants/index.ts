@@ -41,3 +41,18 @@ export const ORDER_CHECKOUT_KEYS = [
   'shippingPrice',
   'totalPrice'
 ] as const
+
+export const productDefaultValues = {
+  name: '',
+  slug: '',
+  category: '',
+  images: [],
+  brand: '',
+  description: '',
+  price: '0',
+  stock: 0,
+  rating: '0',
+  numReviews: '0',
+  isFeatured: false,
+  banner: null
+}

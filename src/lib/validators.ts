@@ -11,16 +11,23 @@ const currency = z.string().refine(value => {
 }, 'Price must have two 2 decimals')
 
 export const insertProductSchema = z.object({
+  id: z.string().optional(),
   name: z.string().min(3, 'Name suppose to be at least 3 characters'),
   slug: z.string().min(3, 'Slug suppose to be at least 3 characters'),
   category: z.string().min(3, 'Category suppose to be at least 3 characters'),
   brand: z.string().min(3, 'Brand suppose to be at least 3 characters'),
   description: z.string().min(3, 'Description suppose to be at least 3 characters'),
-  stock: z.coerce.number(),
+  stock: z.coerce.number<number>(),
   images: z.array(z.string()).min(1, 'Product must have one image'),
-  isFeatured: z.boolean(),
-  banner: z.string().nullable(),
+  // isFeatured: z.boolean(),
+  // banner: z.string().nullable(),
   price: currency
+})
+
+//Schema for updating products
+
+export const updateProductSchema = insertProductSchema.extend({
+  id: z.string().min(1, 'Id is required')
 })
 
 export const shippingAddressSchema = z.object({
