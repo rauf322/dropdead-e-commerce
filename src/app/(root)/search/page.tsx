@@ -28,7 +28,8 @@ export default async function SearchPage(props: {
     category,
     price: price,
     rating,
-    page: Number(page)
+    page: Number(page),
+    sort
   })
   return (
     <div className='grid md:grid-cols-5 md:gap-5'>

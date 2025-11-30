@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 
 import ProductList from '@/components/shared/product/product'
 import ProductCarousel from '@/components/shared/product/product-carousel'
+import ViewAllProductsButton from '@/components/view-all-products-button'
 
 import { getFeaturedProducts, getLatestProducts } from '@/lib/actions/product.actions'
 
@@ -19,6 +20,7 @@ const HomePage = async () => {
         data={latestProducts}
         title='Product List'
       />
+      <ViewAllProductsButton />
     </>
   )
 }
