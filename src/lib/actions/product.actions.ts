@@ -51,17 +51,46 @@ export async function getAllProducts({
   sort?: string
 }) {
   const queryFilter: Prisma.ProductWhereInput =
-    query && query !== 'all'
+    query && query !== 'all' && query.trim() !== ''
       ? {
-          name: {
-            contains: query,
-            mode: 'insensitive'
-          } as Prisma.StringFilter
+          OR: [
+            {
+              name: {
+                contains: query,
+                mode: 'insensitive'
+              }
+            },
+            {
+              description: {
+                contains: query,
+                mode: 'insensitive'
+              }
+            },
+            {
+              category: {
+                contains: query,
+                mode: 'insensitive'
+              }
+            },
+            {
+              brand: {
+                contains: query,
+                mode: 'insensitive'
+              }
+            }
+          ]
         }
       : {}
 
   const categoryFilter: Prisma.ProductWhereInput =
-    category && category !== 'all' ? { category } : {}
+    category && category !== 'all'
+      ? {
+          category: {
+            equals: category,
+            mode: 'insensitive'
+          }
+        }
+      : {}
 
   const ratingFilter: Prisma.ProductWhereInput =
     rating && rating !== 'all'
