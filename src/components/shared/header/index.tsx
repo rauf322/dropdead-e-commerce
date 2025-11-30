@@ -24,7 +24,6 @@ const Header = () => {
               alt={`${APP_NAME} logo`}
               priority={true}
             />
-            <span className='hidden lg:block font-bold text-2xl ml-3'>{APP_NAME}</span>
           </Link>
         </div>
         <div className='hidden md:block'>
