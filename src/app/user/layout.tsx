@@ -13,7 +13,7 @@ const LINKS = [
   },
   {
     title: 'Orders',
-    href: '/users/orders'
+    href: '/user/orders'
   }
 ]
 
