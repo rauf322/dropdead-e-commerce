@@ -1,20 +1,25 @@
 import { notFound } from 'next/navigation'
 
 import ProductList from '@/components/shared/product/product'
+import ProductCarousel from '@/components/shared/product/product-carousel'
 
-import { getLatestProducts } from '@/lib/actions/product.actions'
+import { getFeaturedProducts, getLatestProducts } from '@/lib/actions/product.actions'
 
 const HomePage = async () => {
   const latestProducts = await getLatestProducts()
+  const featuredProduct = await getFeaturedProducts()
 
   if (!latestProducts) {
     notFound()
   }
   return (
-    <ProductList
-      data={latestProducts}
-      title='Product List'
-    />
+    <>
+      {featuredProduct && featuredProduct.length > 0 && <ProductCarousel data={featuredProduct} />}
+      <ProductList
+        data={latestProducts}
+        title='Product List'
+      />
+    </>
   )
 }
 
