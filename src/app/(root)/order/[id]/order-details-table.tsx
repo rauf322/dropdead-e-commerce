@@ -23,14 +23,19 @@ import {
 import { deliverOrder, updateOrderToPaidCOD } from '@/lib/actions/order.action'
 import { formatCurrency, formatDateTime, formatId } from '@/lib/utils'
 
+import StripePaymentForm from './stripe-payment'
+import StripePayment from './stripe-payment'
+
 export default function OrderDetailsTable({
   order,
   paypalClientId,
-  isAdmin
+  isAdmin,
+  stripeClientSecret
 }: {
   order: Order
   paypalClientId: string
   isAdmin: boolean
+  stripeClientSecret: string | null
 }) {
   const {
     shippingAddress,
@@ -189,6 +194,13 @@ export default function OrderDetailsTable({
                     <PayPalButtonsWrapper order={order} />
                   </PayPalScriptProvider>
                 </div>
+              )}
+              {!isPaid && paymentMethod === 'Stripe' && stripeClientSecret && (
+                <StripePayment
+                  priceInCents={Number(order.totalPrice) * 100}
+                  orderId={order.id}
+                  clientSecret={stripeClientSecret}
+                />
               )}
               {/*Cash on Delivery*/}
               <div className='flex flex-col gap-2'>
