@@ -1,24 +1,29 @@
+import { auth } from '@/../auth'
 import Loading from '@/app/loading'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 
 import AddToCart from '@/components/shared/cart/add-to-cart'
 import ProductImages from '@/components/shared/product/product-images'
+import Rating from '@/components/shared/rating'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 
 import { getMyCart } from '@/lib/actions/cart.action'
 import { getProductBySlug } from '@/lib/actions/product.actions'
 
-async function ProductContent({ slug }: { slug: string }) {
-  // await new Promise((resolve) => setTimeout(resolve, 4000));
+import ReviewList from './review-list'
 
+async function ProductContent({ slug }: { slug: string }) {
   const product = await getProductBySlug(slug)
   const cart = await getMyCart()
   if (!product) notFound()
 
+  const session = await auth()
+  const userId = session?.user.id
+
   return (
-    <div>
+    <>
       <section>
         <div className='grid grid-cols-1 md:grid-cols-5 '>
           {/*Images column*/}
@@ -31,9 +36,8 @@ async function ProductContent({ slug }: { slug: string }) {
               {product.brand} {product.category}
             </p>
             <h1 className='h3-bold'>{product.name}</h1>
-            <p>
-              {product.rating} of {product.numReviews} Reviews
-            </p>
+            <Rating value={Number(product.rating)} />
+            <p>{product.numReviews} reviews</p>
             <div className='flex flex-col gap-3 sm:flex-row items-left mt-10'>
               <Badge className='text-xl w-24 rounded-full bg-gray-500 text-white'>
                 ${product.price}
@@ -82,7 +86,15 @@ async function ProductContent({ slug }: { slug: string }) {
           </div>
         </div>
       </section>
-    </div>
+      <section className='mt-10'>
+        <h2 className='h2-bold'>Customer Reviews</h2>
+        <ReviewList
+          userId={userId || ''}
+          productId={product.id}
+          productSlug={product.slug}
+        />
+      </section>
+    </>
   )
 }
 

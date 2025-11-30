@@ -132,3 +132,11 @@ export const updateUserSchema = z.object({
   email: z.string().email('Invalid email address').optional(),
   role: z.enum(['user', 'admin'] as const)
 })
+
+export const insertReviewSchema = z.object({
+  title: z.string().min(3, 'Title must be at least 3 characters'),
+  description: z.string().min(3, 'Description must be at least 3 characters'),
+  productId: z.string().min(1, 'Product is required'),
+  userId: z.string().min(1, 'User is required'),
+  rating: z.coerce.number<number>().min(1, 'Must be at least 1').max(5, 'Cannot be more than 5')
+})

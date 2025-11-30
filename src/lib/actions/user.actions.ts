@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import z from 'zod'
 
-import { convertToPlainObject, formatError, mockDelay } from '@/lib/utils'
+import { convertToPlainObject, formatError } from '@/lib/utils'
 
 import type { ActionResponse } from '@/types'
 
@@ -28,7 +28,6 @@ export async function signInWithCredentials(
   formData: FormData
 ): Promise<ActionResponse> {
   try {
-    await mockDelay(700)
     const user = signInFormShema.safeParse({
       email: formData.get('email'),
       password: formData.get('password')
