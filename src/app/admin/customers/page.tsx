@@ -34,7 +34,7 @@ export default async function AdminOrdersPage(props: {
         {searchText && (
           <div>
             Filtered by <i> &quot;{searchText}&quot;</i>
-            <Link href='/admin/users'>
+            <Link href='/admin/customers'>
               <Button
                 variant='outline'
                 size='sm'
