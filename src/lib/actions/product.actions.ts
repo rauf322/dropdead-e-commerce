@@ -82,19 +82,32 @@ export async function getAllProducts({
         }
       : {}
 
+  const order: Prisma.ProductOrderByWithRelationInput =
+    sort === 'lowest'
+      ? { price: 'asc' }
+      : sort === 'highest'
+        ? { price: 'desc' }
+        : sort === 'rating'
+          ? { rating: 'desc' }
+          : { createdAt: 'desc' }
+
+  const whereClause = {
+    ...queryFilter,
+    ...ratingFilter,
+    ...categoryFilter,
+    ...priceFilter
+  }
+
   const data = await prisma.product.findMany({
-    where: {
-      ...queryFilter,
-      ...ratingFilter,
-      ...categoryFilter,
-      ...priceFilter
-    },
-    orderBy: { createdAt: 'desc' },
+    where: whereClause,
+    orderBy: order,
     take: limit,
     skip: (page - 1) * limit
   })
 
-  const dataCount = await prisma.product.count()
+  const dataCount = await prisma.product.count({
+    where: whereClause
+  })
 
   return {
     data: convertToPlainObject<Product[]>(data),
